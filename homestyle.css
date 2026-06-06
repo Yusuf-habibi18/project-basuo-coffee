@@ -1,0 +1,325 @@
+/* ==========================================================================
+   1. BRIGHT LUXURY MINANG DESIGN SYSTEM
+   ========================================================================== */
+:root {
+    --bg-light: #FAF7F2;         /* Warm Ivory - Lapang, Terang, & Berkelas */
+    --bg-card: #FFFFFF;          /* Pure White untuk Kontras */
+    --accent-gold: #BC9264;      /* Muted Bronze Gold - Lambang Kemewahan Silaturahmi */
+    --accent-clay: #C26D4D;      /* Warm Terracotta - Nuansa Rempah Tradisi Minang */
+    --text-dark: #2D2722;        /* Deep Espresso - Pengganti Hitam Pekat agar Lebih Lembut */
+    --text-muted: #736A62;       /* Elegant Taupe / Abu-abu Hangat */
+    --shadow-luxury: 0 12px 40px rgba(188, 146, 100, 0.06);
+    --font-serif: 'Playfair Display', Georgia, serif; /* Font puitis untuk filosofi */
+    --font-sans: 'Montserrat', 'Segoe UI', sans-serif;
+}
+
+/* ==========================================================================
+   2. GLOBAL RESET & BASE STYLING
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: var(--font-sans);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    line-height: 1.8;
+}
+
+/* Base Utility untuk Animasi JavaScript Interaktif */
+.reveal-init {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.2s ease;
+}
+.reveal-init.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   3. BRIGHT STICKY NAVIGATION
+   ========================================================================== */
+header {
+    background-color: rgba(250, 247, 242, 0.85);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(188, 146, 100, 0.08);
+    padding: 25px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.4s ease;
+}
+
+header.scrolled {
+    padding: 15px 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.02);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand h1 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+}
+
+.logo {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-clay);
+}
+
+.nav-link.aktif {
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--accent-clay);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   4. LAYOUT & SPECIAL PHILOSOPHY BANNER
+   ========================================================================== */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+section {
+    margin-bottom: 120px;
+}
+
+/* Banner Khusus Pengolah Kutipan Interaktif */
+.philosophy-banner {
+    text-align: center;
+    padding: 80px 20px;
+    max-width: 850px;
+    margin: 40px auto 60px auto;
+}
+
+.philosophy-banner h2 {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--accent-clay);
+    margin-bottom: 25px;
+}
+
+#philosophical-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.35rem;
+    color: var(--text-muted);
+    line-height: 2;
+    text-align: center;
+    transition: all 0.8s ease;
+}
+
+/* Heading H2 Global untuk Konten Section */
+h2 {
+    font-family: var(--font-serif);
+    font-size: 2.3rem;
+    font-style: normal;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   5. VIDEO SECTION (CINEMATIC DISPLAY)
+   ========================================================================== */
+.video-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.perkenalan, .biliard {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-luxury);
+    border: 1px solid rgba(188, 146, 100, 0.05);
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ==========================================================================
+   6. IMAGES & GRID DISPLAY
+   ========================================================================== */
+.welcome-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.welcome-gallery img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: var(--shadow-luxury);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.welcome-gallery img:hover {
+    transform: scale(1.02);
+}
+
+/* --- HORIZONTAL SLIDER FOTO CAFE BASUO (NETFLIX STYLE) --- */
+.foto-cafe-basuo {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding-bottom: 15px; /* Memberi ruang agar bayangan tidak terpotong */
+}
+
+/* Menyembunyikan Scrollbar bawaan browser agar estetik */
+.foto-cafe-basuo::-webkit-scrollbar { 
+    display: none; 
+}
+.foto-cafe-basuo { 
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+/* Mengatur ukuran gambar di dalam slider */
+.foto-cafe-basuo img {
+    flex: 0 0 80%; /* Di layar besar, gambar mengambil 80% lebar area (terlihat menggantung seperti Netflix) */
+    width: 80%;
+    height: 500px; /* Menentukan tinggi seragam foto cafe */
+    object-fit: cover;
+    scroll-snap-align: start;
+    border-radius: 16px;
+    box-shadow: var(--shadow-luxury);
+    transition: transform 0.4s ease;
+}
+
+/* Efek sedikit interaktif saat gambar di-hover */
+.foto-cafe-basuo img:hover {
+    transform: scale(1.01);
+}
+
+/* --- HORIZONTAL SCROLL SLIDER BANNER --- */
+.foto-hero {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-luxury);
+}
+
+.foto-hero::-webkit-scrollbar { display: none; }
+.foto-hero { -ms-overflow-style: none; scrollbar-width: none; }
+
+.foto-hero img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 550px;
+    object-fit: cover;
+    scroll-snap-align: start;
+    border-radius: 16px;
+}
+
+/* Galeri Tiga Kolom Sejajar */
+.gallery-section .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.gallery-section .container img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: var(--shadow-luxury);
+}
+
+/* ==========================================================================
+   7. FOOTER STYLING
+   ========================================================================== */
+footer {
+    background-color: #EFEAE2; /* Sedikit lebih gelap dari body untuk penutup */
+    padding: 50px 20px;
+    margin-top: 100px;
+    border-top: 1px solid rgba(188, 146, 100, 0.1);
+}
+
+footer p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-style: normal;
+}
+
+/* ==========================================================================
+   8. RESPONSIVE DESIGN (Media Queries)
+   ========================================================================== */
+@media screen and (max-width: 992px) {
+    .header-container { flex-direction: column; gap: 20px; }
+    .video-section, .welcome-gallery, .gallery-section .container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .welcome-gallery img, .gallery-section .container img { height: 400px; }
+}
+
+@media screen and (max-width: 768px) {
+    .philosophy-banner h2 { font-size: 1.8rem; }
+    #philosophical-quote { font-size: 1.15rem; }
+    .foto-hero img { height: 350px; }
+    nav ul { gap: 15px; }
+}

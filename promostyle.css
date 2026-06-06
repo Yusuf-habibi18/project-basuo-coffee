@@ -1,0 +1,263 @@
+:root {
+    --bg-light: #FAF7F2;         /* Warm Ivory - Lapang, Terang, & Berkelas */
+    --bg-card: #FFFFFF;          /* Pure White untuk Kontras */
+    --accent-gold: #BC9264;      /* Muted Bronze Gold - Lambang Kemewahan Silaturahmi */
+    --accent-clay: #C26D4D;      /* Warm Terracotta - Nuansa Rempah Tradisi Minang */
+    --text-dark: #2D2722;        /* Deep Espresso - Pengganti Hitam Pekat agar Lebih Lembut */
+    --text-muted: #736A62;       /* Elegant Taupe / Abu-abu Hangat */
+    --shadow-luxury: 0 12px 40px rgba(188, 146, 100, 0.06);
+    --font-serif: 'Playfair Display', Georgia, serif; /* Font puitis untuk filosofi */
+    --font-sans: 'Montserrat', 'Segoe UI', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: rgba(250, 247, 242, 0.85);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(188, 146, 100, 0.08);
+    padding: 25px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.4s ease;
+}
+
+header.scrolled {
+    padding: 15px 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.02);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand h1 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+}
+
+.logo {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-clay);
+}
+
+.nav-link.aktif {
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--accent-clay);
+    font-weight: 600;
+}
+
+/* Tambahkan ini di bagian bawah file promostyle.css Anda */
+
+body {
+    background-color: var(--bg-light);
+    font-family: var(--font-sans);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    line-height: 1.8;
+}
+
+/* ==========================================================================
+   KONTEN PROMO UTAMA & JUDUL Halaman
+   ========================================================================== */
+.promo-container {
+    max-width: 1100px;
+    margin: 60px auto 120px auto;
+    padding: 0 30px;
+}
+
+.promo-title-section {
+    text-align: center;
+    margin-bottom: 60px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    position: static;
+    padding: 0;
+}
+
+.promo-title-section h2 {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: var(--accent-clay);
+    margin-bottom: 15px;
+    font-weight: 400;
+}
+
+.promo-subtitle {
+    font-family: var(--font-serif);
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   SISTEM GRID & BENTUK KARTU PROMO
+   ========================================================================== */
+.promo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Membagi 2 kolom sejajar untuk 2 promo */
+    gap: 40px;
+}
+
+.promo-card {
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-luxury);
+    border: 1px solid rgba(188, 146, 100, 0.05);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+}
+
+.promo-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(188, 146, 100, 0.12);
+}
+
+.promo-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 380px; /* Mengunci tinggi wadah gambar agar seragam */
+    overflow: hidden;
+}
+
+.promo-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mencegah gambar menjadi gepeng atau ketarik */
+    transition: transform 0.6s ease;
+}
+
+.promo-card:hover .promo-image-wrapper img {
+    transform: scale(1.03); /* Efek zoom tipis saat kartu disorot */
+}
+
+/* Label Kecil di Atas Gambar */
+.promo-tag {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: var(--accent-clay);
+    color: #FFFFFF;
+    padding: 6px 16px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(194, 109, 77, 0.2);
+}
+
+/* Kotak Teks Keterangan Promo */
+.promo-content {
+    padding: 35px;
+}
+
+.promo-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.promo-content p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+/* ==========================================================================
+   PENUTUP FOOTER
+   ========================================================================== */
+footer {
+    background-color: #EFEAE2;
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(188, 146, 100, 0.1);
+}
+
+footer p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   PENGATURAN LAYAR MOBIL / RESPONSIVE (MEDIA QUERIES)
+   ========================================================================== */
+@media screen and (max-width: 992px) {
+    .header-container { 
+        flex-direction: column; 
+        gap: 20px; 
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .promo-container {
+        margin: 40px auto 80px auto;
+    }
+    
+    .promo-title-section h2 {
+        font-size: 2rem;
+    }
+    
+    .promo-grid {
+        grid-template-columns: 1fr; /* Di HP otomatis berubah menumpuk satu kolom ke bawah */
+        gap: 30px;
+    }
+    
+    .promo-image-wrapper {
+        height: 280px; /* Memperpendek tinggi gambar agar pas di layar ponsel */
+    }
+    
+    .promo-content {
+        padding: 25px;
+    }
+    
+    nav ul {
+        gap: 15px;
+    }
+}

@@ -1,0 +1,309 @@
+/* ==========================================================================
+   1. SYSTEM DESIGN & VARIABEL WARNA
+   ========================================================================== */
+:root {
+    --bg-main: #FAF7F2;
+    --card-bg: #FFFFFF;
+    --accent-gold: #BC9264;
+    --accent-clay: #C26D4D;
+    --text-dark: #2D2722;
+    --text-muted: #736A62;
+    --shadow-card: 0 15px 45px rgba(188, 146, 100, 0.08);
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Montserrat', 'Segoe UI', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-main);
+    font-family: var(--font-sans);
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. HEADER & NAVIGASI (STICKY)
+   ========================================================================== */
+header {
+    background-color: rgba(250, 247, 242, 0.85);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(188, 146, 100, 0.08);
+    padding: 25px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand h1 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: var(--accent-gold);
+    letter-spacing: 1px;
+}
+
+.logo { 
+    height: 60px; 
+    width: auto; 
+    object-fit: contain;
+}
+
+nav ul { 
+    display: flex; 
+    list-style: none; 
+    gap: 30px; 
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 500;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-clay);
+}
+
+.nav-link.aktif {
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--accent-clay);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   3. LAYOUT UTAMA & HIGHLIGHT IMAGES
+   ========================================================================== */
+.menu-container {
+    max-width: 950px; 
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.menu-section {
+    margin-bottom: 100px;
+}
+
+/* Penataan 3 Gambar Grid di Atas */
+.try-our-menu {
+    margin-bottom: 60px;
+}
+
+.try-our-menu .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.try-our-menu .container img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+}
+
+/* Judul Kategori (Signature Foods / Refreshing Drinks) */
+.category-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: var(--accent-clay);
+    text-align: center;
+    margin-bottom: 60px;
+    font-weight: 400;
+}
+
+.category-title::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 1px;
+    background-color: var(--accent-gold);
+    margin: 20px auto 0 auto;
+}
+
+/* ==========================================================================
+   4. KARTU MENU (FLEXBOX DESIGN)
+   ========================================================================== */
+.menu-card {
+    background-color: var(--card-bg);
+    padding: 35px;
+    margin-bottom: 45px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(188, 146, 100, 0.03);
+    
+    /* Mengatur susunan kolom media & teks sejajar ke samping */
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(188, 146, 100, 0.12);
+}
+
+/* Blok Media Kiri: Tempat Gambar, Harga, & Tombol */
+.menu-media-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 290px;
+    flex-shrink: 0;
+    gap: 15px;
+}
+
+.menu-card-img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+/* Tag Harga di bawah gambar */
+.price-tag {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--accent-clay);
+    letter-spacing: 0.5px;
+    margin-top: 5px;
+}
+
+/* Tombol Chat WhatsApp Kafe */
+.order-btn {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    background-color: transparent;
+    color: var(--accent-gold);
+    border: 1px solid var(--accent-gold);
+    padding: 10px 20px;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.order-btn:hover {
+    background-color: var(--accent-gold);
+    color: #FFFFFF;
+    box-shadow: 0 8px 20px rgba(188, 146, 100, 0.2);
+}
+
+/* Blok Kanan: Judul Menu & Cerita Deskripsi */
+.menu-text-block {
+    flex-grow: 1;
+}
+
+.menu-card h2 {
+    font-family: var(--font-serif);
+    color: var(--text-dark);
+    font-size: 1.9rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.menu-card p {
+    font-family: var(--font-serif);
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.9;
+    text-align: justify;
+}
+
+/* ==========================================================================
+   5. FOOTER
+   ========================================================================== */
+footer {
+    background-color: #EFEAE2;
+    padding: 40px;
+    text-align: center;
+    border-top: 1px solid rgba(188, 146, 100, 0.05);
+}
+
+footer p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+/* ==========================================================================
+   6. RESPONSIVE LAYOUT (UNTUK LAYAR HP)
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    .header-container { 
+        flex-direction: column; 
+        gap: 15px; 
+    }
+    
+    /* Mengubah susunan 3 gambar atas menjadi vertikal di HP */
+    .try-our-menu .container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .try-our-menu .container img {
+        height: 250px;
+    }
+
+    .category-title { 
+        font-size: 2rem; 
+    }
+    
+    /* Kartu menu Flexbox berputar ke bawah agar rapi di layar sempit */
+    .menu-card { 
+        flex-direction: column;
+        align-items: center;
+        padding: 30px;
+        gap: 25px;
+    }
+
+    .menu-media-block {
+        width: 100%;
+        gap: 12px;
+    }
+    
+    .menu-card-img {
+        height: 230px;
+    }
+    
+    .menu-card h2 { 
+        text-align: center; 
+        font-size: 1.6rem;
+    }
+}

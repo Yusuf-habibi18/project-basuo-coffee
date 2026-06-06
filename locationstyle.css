@@ -1,0 +1,267 @@
+/* ==========================================================================
+   1. SYSTEM DESIGN & VARIABEL WARNA
+   ========================================================================== */
+:root {
+    --bg-light: #FAF7F2;
+    --bg-card: #FFFFFF;
+    --accent-gold: #BC9264;
+    --accent-clay: #C26D4D;
+    --text-dark: #2D2722;
+    --text-muted: #736A62;
+    --shadow-luxury: 0 15px 45px rgba(188, 146, 100, 0.06);
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Montserrat', 'Segoe UI', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: var(--font-sans);
+    color: var(--text-dark);
+}
+
+/* ==========================================================================
+   2. HEADER & STICKY NAVIGATION
+   ========================================================================== */
+header {
+    background-color: rgba(250, 247, 242, 0.85);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(188, 146, 100, 0.08);
+    padding: 25px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand h1 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+}
+
+.logo {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-clay);
+}
+
+.nav-link.aktif {
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--accent-clay);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   3. LAYOUT UTAMA LOKASI (FLEXBOX TWO-COLUMN)
+   ========================================================================== */
+.location-container {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: var(--accent-clay);
+    text-align: center;
+    margin-bottom: 50px;
+    font-weight: 400;
+}
+
+.page-title::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 1px;
+    background-color: var(--accent-gold);
+    margin: 15px auto 0 auto;
+}
+
+/* Wadah Utama Konten Lokasi */
+.location-content {
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+}
+
+/* Kolom Kiri (Info & Jam) */
+.info-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.address-card, .hours-card {
+    background-color: var(--bg-card);
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-luxury);
+    border: 1px solid rgba(188, 146, 100, 0.03);
+}
+
+.address-card h3, .hours-card h3 {
+    font-family: var(--font-serif);
+    color: var(--accent-gold);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.address-card p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 1rem;
+    margin-bottom: 25px;
+}
+
+/* Tombol Google Maps */
+.maps-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--accent-clay);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.maps-btn:hover {
+    background-color: #a85839;
+    transform: translateY(-2px);
+}
+
+/* Tabel Jam Operasional */
+.hours-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.hours-table tr {
+    border-bottom: 1px dashed rgba(188, 146, 100, 0.15);
+}
+
+.hours-table tr:last-child {
+    border-bottom: none;
+}
+
+.hours-table td {
+    padding: 12px 0;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.hours-table td.time {
+    text-align: right;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Penyorot Jam Tutup Lebih Malam di Akhir Pekan (Jumat-Sabtu) */
+.hours-table td.text-highlight {
+    color: var(--accent-clay);
+    font-weight: 600;
+}
+
+/* Kolom Kanan (Google Maps) */
+.map-block {
+    flex: 1;
+    min-height: 450px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-luxury);
+    border: 1px solid rgba(188, 146, 100, 0.03);
+}
+
+.map-block iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* ==========================================================================
+   4. FOOTER STYLING
+   ========================================================================== */
+footer {
+    background-color: #EFEAE2;
+    padding: 40px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+footer p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE DESIGN (TAMPILAN HP)
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .location-content {
+        flex-direction: column; /* Berubah menjadi satu kolom ke bawah di HP */
+        gap: 30px;
+    }
+    
+    .map-block {
+        height: 350px;
+        min-height: auto;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+}
