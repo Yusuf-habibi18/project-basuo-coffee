@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basuo Coffee | Dashboard Kasir & Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="adminstyle.css"> 
+</head>
+<body>
+
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h2>Basuo Coffee</h2>
+                <p></p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="sidebar-link aktif" id="nav-orders"> Pesanan Live</a></li>
+                    <li><a href="#" class="sidebar-link" id="nav-history">Riwayat Transaksi</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p></p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Ringkasan Operasional Hari Ini</h1>
+                <p id="live-clock">Memuat waktu...</p>
+            </header>
+
+            <section class="metrics-grid">
+                <div class="card metric-card">
+                    <h3>Total Pendapatan</h3>
+                    <p id="metric-revenue">Rp 0</p>
+                </div>
+                <div class="card metric-card">
+                    <h3>Pesanan Baru (Antrean)</h3>
+                    <p id="metric-new-orders" class="text-alert">0</p>
+                </div>
+                <div class="card metric-card">
+                    <h3>Total Transaksi Sukses</h3>
+                    <p id="metric-success-orders">0 Transaksi</p>
+                </div>
+            </section>
+
+            <section class="orders-section">
+                <div class="section-header">
+                    <h2>Antrean Pesanan</h2>
+                    
+                    <!-- KOTAK BUTTON DI SUDUT KANAN -->
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <!-- Tombol Segarkan bawaan tokomu -->
+                        <button id="refresh-btn" class="refresh-button">🔄 Segarkan Data</button>
+                        
+                        <!-- TOMBOL RESET DATABASE WARNA MERAH -->
+                        <button id="reset-database-btn" style="background-color: #d9534f; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background-color 0.2s;">
+                            Reset data
+                        </button>
+                    </div>
+                </div>
+
+                <div id="live-orders-queue" class="orders-queue-grid">
+                     <!-- Tempat kartu pesanan masuk -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
