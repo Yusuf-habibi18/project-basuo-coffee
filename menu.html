@@ -16,11 +16,16 @@
                 <h1>Basuo Coffee</h1>
             </div>
             <nav aria-label="Navigasi Menu">
-                <ul>
-                    <li><a class="nav-link" href="home.html">Home</a></li>
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="index.html">Home</a></li>
                     <li><a class="nav-link aktif" href="menu.html">Menu</a></li>
                     <li><a class="nav-link" href="promo.html">Promo</a></li>
                     <li><a class="nav-link" href="location.html">Lokasi</a></li>
+                    <li>
+                        <button id="cart-trigger-btn" class="cart-btn" aria-label="Buka Keranjang Belanja">
+                            Check Keranjang (<span id="cart-count">0</span>)
+                        </button>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -28,206 +33,186 @@
 
     <main class="menu-container">
         
-        <section class="menu-section">
-            <h2 class="category-title">Signature Foods</h2>
-
-            <div class="try-our-menu">
-                <div class="container"> 
-                    <img src="menu1.jpg" alt="Highlight Menu 1">   
-                    <img src="menu2.jpg" alt="Highlight Menu 2">
-                    <img src="menu3.jpg" alt="Highlight Menu 3">
-                </div>  
-            </div>
-            
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b8.jpg" class="menu-card-img" alt="Beef Teriyaki">
-                    <div class="price-tag">Rp 25.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Beef%20Teriyaki" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Beef Teriyaki</h2>
-                    <p>
-                        Irisan daging sapi pilihan dimasak dengan saus teriyaki khas yang manis gurih, meresap hingga ke setiap seratnya.
-                        Disajikan hangat dengan taburan wijen dan aroma bawang putih yang menggoda, menu ini membawa kehangatan
-                        seperti pelukan terakhir sebelum sebuah perpisahan. Cocok untuk kamu yang ingin menikmati hidangan penuh rasa 
-                        sambil menata ulang cerita yang pernah ada.
-                    </p>
-                </div>
-            </div>
-
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b9.jpg" class="menu-card-img" alt="Croffle with Ice Cream">
-                    <div class="price-tag">Rp 20.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Croffle%20with%20Ice%20Cream" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Croffle with Ice Cream</h2>
-                    <p>
-                        Perpaduan croissant dan waffle yang renyah dipadukan dengan satu scoop es krim lembut yang meleleh perlahan.
-                        Rasanya manis, hangat, dingin, dan segar dalam satu waktu seperti dua hati yang bertemu, namun tahu bahwa
-                        waktu mereka terbatas. Menu ini diciptakan untuk kamu yang ingin merayakan momen singkat, tapi tak terlupakan.
-                    </p>
-                </div>
-            </div>
-
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b3.jpg" class="menu-card-img" alt="Roti Bakar Keju">
-                    <div class="price-tag">Rp 20.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Roti%20Bakar%20Keju" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Roti Bakar Keju</h2>
-                    <p>
-                        Roti yang renyah di luar dan lembut di dalam, dipadu dengan lelehan keju asin dan coklat manis yang meleleh sempurna.
-                        Setiap gigitannya membawa nostalgia tentang malam-malam panjang penuh tawa, atau percakapan ringan di bawah
-                        lampu temaram. Menu ini bukan sekadar camilan, tapi pengantar kisah yang tak ingin cepat usai.
-                    </p>
-                </div>
-            </div>
-
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b3.jpg" class="menu-card-img" alt="Roti Bakar Cokelat">
-                    <div class="price-tag">Rp 18.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Roti%20Bakar%20Cokelat" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Roti Bakar Cokelat</h2>
-                    <p>
-                        Panggang hangat berlapis cokelat premium yang lumer berlimpah. Rasa manis legitnya menjadi obat penawar rindu 
-                        bagi ruang-ruang sepi yang sempat ditinggalkan, memberi keyakinan bahwa setelah malam yang paling dingin sekalipun, 
-                        pagi yang cerah akan menyambut kita kembali.
-                    </p>
-                </div>
+        <section class="try-our-menu reveal" aria-labelledby="hero-heading">
+            <h2 id="hero-heading" class="hidden-visual">Rekomendasi Menu Kami</h2>
+            <div class="container">
+                <figure>
+                    <img src="menu1.jpg" alt="Sajian Kopi Susu Khas Basuo">
+                </figure>
+                <figure>
+                    <img src="menu2.jpg" alt="Proses Manual Brew V60">
+                </figure>
+                <figure>
+                    <img src="menu3.jpg" alt="Kopi Espresso Segar">
+                </figure>
             </div>
         </section>
 
-        <section class="menu-section">
-            <h2 class="category-title">Refreshing Drinks</h2>
+        <section class="menu-section reveal" aria-labelledby="food-category">
+            <h2 id="food-category" class="category-title">Makanan</h2>
             
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b10.jpg" class="menu-card-img" alt="Blue Ocean">
-                    <div class="price-tag">Rp 18.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Blue%20Ocean" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Blue Ocean</h2>
-                    <p>
-                        Minuman berwarna biru jernih ini mengingatkan pada laut tenang di pagi hari sejuk, menyegarkan, dan sedikit misterius.
-                        Rasa citrus yang segar berpadu dengan sentuhan manis ringan menciptakan keseimbangan yang memikat, seperti
-                        obrolan singkat tapi bermakna dengan orang asing di stasiun yang sama. Cocok untuk mereka yang sedang mencari ketenangan, 
-                        atau ingin memulai hari baru tanpa beban masa lalu.
-                    </p>
-                </div>
-            </div>
+            <div class="menu-grid">
+                <article class="menu-card">
+                    <div class="menu-media-block">
+                        <img src="b8.jpg" class="menu-card-img" alt="Beef Teriyaki">
+                        <div class="price-tag">Rp 25.000</div>
+                        <button class="order-btn add-to-cart-btn" data-name="Beef Teriyaki" data-price="25000">Tambah ke Keranjang</button>
+                    </div>
+                    <div class="menu-text-block">
+                        <h3>Beef Teriyaki</h3>
+                        <p>
+                            Irisan daging sapi pilihan dimasak dengan saus teriyaki khas Jepang yang gurih-manis meresap sempurna. Hidangan ini dirancang 
+                            bukan sekadar untuk mengenyangkan, melainkan untuk membangkitkan kehangatan rasa di setiap suapan, membawa ingatan Anda kembali 
+                            pada momen-momen manis yang berharga.
+                        </p>
+                    </div>
+                </article>
 
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b7.jpg" class="menu-card-img" alt="Mojito Manggo">
-                    <div class="price-tag">Rp 15.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Mojito%20Manggo" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Mojito Manggo</h2>
-                    <p>
-                        Perpaduan mangga manis tropis dan daun mint segar menghasilkan sensasi eksotis yang menggoda.
-                        Setiap tegukan mojito ini seperti tarian singkat musim panas ceria, membangkitkan semangat, namun tetap
-                        menyimpan kelembutan. Sempurna untuk menemani detik-detik terakhir sebuah pertemuan hangat, atau menyambut 
-                        perpisahan dengan senyuman yang tulus.
-                    </p>
-                </div>
-            </div>
+                <article class="menu-card">
+                    <div class="menu-media-block">
+                        <img src="b9.jpg" class="menu-card-img" alt="Croffle with Ice Cream">
+                        <div class="price-tag">Rp 20.000</div>
+                        <button class="order-btn add-to-cart-btn" data-name="Croffle with Ice Cream" data-price="20000">Tambah ke Keranjang</button>
+                    </div>
+                    <div class="menu-text-block">
+                        <h3>Croffle with Ice Cream</h3>
+                        <p>
+                            Paduan sempurna antara kerenyahan croffle mentega yang hangat dan kelembutan es krim vanila premium di atasnya. Kombinasi 
+                            kontras ini mengajar kita sebuah filosofi sederhana: bahwa dalam hidup, perbedaan watak dan latar belakang justru dapat melebur 
+                            menjadi harmoni rasa yang luar biasa indah.
+                        </p>
+                    </div>
+                </article>
 
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b11.jpg" class="menu-card-img" alt="Charcoal">
-                    <div class="price-tag">Rp 20.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Charcoal" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Charcoal</h2>
-                    <p>
-                        Hitam kelam, misterius, namun menyegarkan. Minuman charcoal ini bukan sekadar tren, melainkan sebuah perjalanan rasa. 
-                        Aksen earthy yang unik berpadu dengan kesegaran dingin yang tegas, merefleksikan sebuah ketabahan hati saat harus 
-                        melepas kepergian demi menyambut babak baru yang lebih menakjubkan.
-                    </p>
-                </div>
+                <article class="menu-card">
+                    <div class="menu-media-block">
+                        <img src="b3.jpg" class="menu-card-img" alt="Roti Bakar">
+                        <div class="price-tag">Rp 15.000</div>
+                        <button class="order-btn add-to-cart-btn" data-name="Roti Bakar" data-price="15000">Tambah ke Keranjang</button>
+                    </div>
+                    <div class="menu-text-block">
+                        <h3>Roti Bakar</h3>
+                        <p>
+                            Roti bakar klasik berselimut mentega wangi dengan pilihan isian manis yang melimpah. Setiap gigitannya yang renyah di luar 
+                            namun lembut di dalam adalah analogi sempurna dari keteguhan hati; pengingat ramah untuk tetap mempertahankan kelembutan jiwa 
+                            meski badai kehidupan di luar sana membakar begitu keras.
+                        </p>
+                    </div>
+                </article>
             </div>
+        </section>
 
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b12.jpg" class="menu-card-img" alt="Matcha">
-                    <div class="price-tag">Rp 25.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Matcha" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Matcha</h2>
-                    <p>
-                        Seduhan daun teh hijau murni pilihan berkarakter pekat namun menenangkan. Rasa pahit yang anggun di awal, meninggalkan 
-                        jejak manis lembut di akhir tenggorokan seperti manisnya sebuah kepastian bahwa sejauh apa pun langkah memisahkan, 
-                        kita pasti akan bersua kembali di sudut meja ini.
-                    </p>
-                </div>
-            </div>
+        <section class="menu-section reveal" aria-labelledby="drink-category">
+            <h2 id="drink-category" class="category-title">Minuman</h2>
+            
+            <div class="menu-grid">
+                <article class="menu-card">
+                    <div class="menu-media-block">
+                        <img src="b10.jpg" class="menu-card-img" alt="Blue Ocean">
+                        <div class="price-tag">Rp 15.000</div>
+                        <button class="order-btn add-to-cart-btn" data-name="Blue Ocean" data-price="15000">Tambah ke Keranjang</button>
+                    </div>
+                    <div class="menu-text-block">
+                        <h3>Blue Ocean</h3>
+                        <p>
+                            Kesegaran mocktail biru laut yang memadukan sirup curaçao, soda jernih, dan percikan lemon yang mengejutkan. Kompleksitas rasa 
+                            asam-manis yang menggelitik ini dihadirkan sebagai simbol dari luasnya samudra rindu, siap membasuh dahaga hati yang gersang dan 
+                            mengembalikan keceriaan suasana dalam sekejap.
+                        </p>
+                    </div>
+                </article>
 
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b13.jpg" class="menu-card-img" alt="Oreo Ice Cream">
-                    <div class="price-tag">Rp 12.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Oreo%20Ice%20Cream" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Oreo Ice Cream</h2>
-                    <p>
-                        Sensasi dingin es krim vanilla premium berpadu dengan remahan biskuit Oreo yang renyah. Kombinasi kontras yang menyatu 
-                        sempurna ini mengajarkan arti pelengkap perbedaan, mengubah momen melankolis perpisahan menjadi sebuah perayaan 
-                        manis yang dinanti.
-                    </p>
-                </div>
-            </div>
+                <article class="menu-card">
+                    <div class="menu-media-block">
+                        <img src="b14.jpg" class="menu-card-img" alt="Strawberry Sweet Cream">
+                        <div class="price-tag">Rp 18.000</div>
+                        <button class="order-btn add-to-cart-btn" data-name="Strawberry Sweet Cream" data-price="18000">Tambah ke Keranjang</button>
+                    </div>
+                    <div class="menu-text-block">
+                        <h3>Strawberry Sweet Cream</h3>
+                        <p>
+                            Sari buah stroberi pilihan bersatu dengan kelembutan krim yang meleleh manja. Kehadiran rasa asam-manis yang ceria 
+                            dan cerah ini siap menghapus mendung di matamu, mengembalikan tawa, serta menghidupkan harapan baru akan pertemuan yang cerah.
+                        </p>
+                    </div>
+                </article>
 
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b14.jpg" class="menu-card-img" alt="Strawberry Ice Cream">
-                    <div class="price-tag">Rp 12.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Strawberry%20Ice%20Cream" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Strawberry Ice Cream</h2>
-                    <p>
-                        Kesegaran buah stroberi pilihan bersatu dengan kelembutan krim yang meleleh manja. Kehadiran rasa asam-manis yang ceria 
-                        dan cerah ini siap menghapus mendung di matamu, mengembalikan tawa, serta menghidupkan harapan baru akan pertemuan yang cerah.
-                    </p>
-                </div>
-            </div>
-
-            <div class="menu-card">
-                <div class="menu-media-block">
-                    <img src="b15.jpg" class="menu-card-img" alt="Matcha Ice Cream">
-                    <div class="price-tag">Rp 15.000</div>
-                    <a href="https://wa.me/62xxxxxxxxxxx?text=Halo%20Basuo%20Cafe,%20saya%20ingin%20memesan%20Matcha%20Ice%20Cream" target="_blank" class="order-btn">Pesan Sekarang</a>
-                </div>
-                <div class="menu-text-block">
-                    <h2>Matcha Ice Cream</h2>
-                    <p>
-                        Kombinasi dingin dari gelato matcha autentik Jepang yang kaya rasa. Paduan kelembutan tekstur dan rasa khas teh hijau yang 
-                        menenangkan ini diciptakan sebagai penyejuk memori, meredam rindu, dan menjadi teman setia dalam merajut mimpi hingga waktu 
-                        pertemuan tiba kembali.
-                    </p>
-                </div>
+                <article class="menu-card">
+                    <div class="menu-media-block">
+                        <img src="b15.jpg" class="menu-card-img" alt="Matcha Ice Cream">
+                        <div class="price-tag">Rp 15.000</div>
+                        <button class="order-btn add-to-cart-btn" data-name="Matcha Ice Cream" data-price="15000">Tambah ke Keranjang</button>
+                    </div>
+                    <div class="menu-text-block">
+                        <h3>Matcha Ice Cream</h3>
+                        <p>
+                            Kombinasi dingin dari gelato matcha autentik Jepang yang kaya rasa. Paduan kelembutan tekstur dan rasa khas teh hijau yang 
+                            menenangkan ini diciptakan sebagai penyejuk memori, meredam rindu, dan menjadi teman setia dalam merajut mimpi hingga waktu 
+                            pertemuan tiba kembali.
+                        </p>
+                    </div>
+                </article>
             </div>
         </section>
 
     </main>
+
+    <aside id="cart-modal" class="modal-overlay" aria-hidden="true" role="dialog">
+        <div class="modal-content">
+            <button id="close-cart-btn" class="modal-close-btn" aria-label="Tutup Keranjang">&times;</button>
+            
+            <h2 class="modal-title">Pesanan Basuo Anda</h2>
+            
+            <div id="cart-items-list" class="cart-items-container"></div>
+            
+            <hr class="modal-divider">
+            
+            <div class="total-price-block">
+                <span>Total Bayar:</span>
+                <span id="cart-total-price">Rp 0</span>
+            </div>
+
+            <div class="form-group">
+                <label for="customer-name">Nama Pemesan:</label>
+                <input type="text" id="customer-name" class="payment-select" placeholder="Masukkan nama Anda" required>
+            </div>
+
+            <div class="form-group">
+                <label for="table-number">Nomor Meja / Jenis Pesanan:</label>
+                <select id="table-number" class="payment-select">
+                    <option value="Dine In - Meja 1">Meja 1</option>
+                    <option value="Dine In - Meja 2">Meja 2</option>
+                    <option value="Dine In - Meja 3">Meja 3</option>
+                    <option value="Dine In - Meja 4">Meja 4</option>
+                    <option value="Dine In - Meja 5">Meja 5</option>
+                    <option value="Take Away">Bawa Pulang (Take Away)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="payment-method">Metode Pembayaran:</label>
+                <select id="payment-method" class="payment-select">
+                    <option value="Transfer Bank">Transfer Bank Mandiri (Rek: 11122233344 a/n Basuo Coffee)</option>
+                    <option value="QRIS">QRIS / ShopeePay / GoPay / OVO</option>
+                </select>
+            </div>
+
+            <div id="qris-container" class="qris-box" style="display: none;">
+                <p class="qris-instruction">SILAHKAN SCAN UNTUK MEMBAYAR</p>
+                <img src="qris-dummy.jpg" alt="QRIS Resmi Basuo Coffee" class="qris-image">
+            </div>
+
+            <button id="checkout-final-btn" class="checkout-btn">
+                Konfirmasi & Kirim Pesanan
+            </button>
+        </div>
+    </aside>
 
     <footer>
         <p>&copy; 2026 BASUO CAFE. ALL RIGHTS RESERVED.</p>
     </footer>
 
     <script src="script.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
