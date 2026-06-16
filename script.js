@@ -1,102 +1,189 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
-    // ==========================================================================
-    // 1. SMART STICKY HEADER (Navigasi Berubah Halus Saat Di-scroll)
-    // ==========================================================================
-    const header = document.querySelector("header");
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) {
-            header.classList.add("scrolled");
-        } else {
-            header.classList.remove("scrolled");
-        }
-    }, { passive: true });
+    // State Aplikasi Keranjang Belanja
+    let cart = [];
 
-    // ==========================================================================
-    // 2. INTERACTIVE SCROLL REVEAL (Efek Muncul Mengalir / Fade-In-Up)
-    // ==========================================================================
-    // Menambahkan target kelas baru (.menu-card, .info-block, .map-block)
-    const revealElements = document.querySelectorAll(
-        ".reveal, .menu-card, .info-block, .map-block, .try-our-menu, .address-card, .hours-card"
-    );
+    // DOM Elements Hooks
+    const cartCountBadge = document.getElementById("cart-count");
+    const cartTriggerBtn = document.getElementById("cart-trigger-btn");
+    const cartModal = document.getElementById("cart-modal");
+    const closeCartBtn = document.getElementById("close-cart-btn");
+    const cartItemsList = document.getElementById("cart-items-list");
+    const cartTotalPrice = document.getElementById("cart-total-price");
+    const checkoutFinalBtn = document.getElementById("checkout-final-btn");
     
-    const revealOnScroll = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                // Efek stagger (kemunculan beruntun satu per satu secara elegan)
-                setTimeout(() => {
-                    entry.target.classList.add("reveal-active");
-                }, index * 100); 
-                revealOnScroll.unobserve(entry.target); // Berhenti mengamati jika sudah muncul demi performa
+    // Form Input Hooks
+    const customerNameInput = document.getElementById("customer-name");
+    const tableNumberSelect = document.getElementById("table-number");
+    const paymentMethodSelect = document.getElementById("payment-method");
+    const qrisContainer = document.getElementById("qris-container");
+
+    // 1. EVENT: Toggle QRIS Image Box Berdasarkan Pilihan Metode Bayar
+    if (paymentMethodSelect && qrisContainer) {
+        paymentMethodSelect.addEventListener("change", function() {
+            if (this.value === "QRIS") {
+                qrisContainer.style.display = "block";
+            } else {
+                qrisContainer.style.display = "none";
             }
         });
-    }, {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-    });
+    }
 
-    revealElements.forEach(element => {
-        element.classList.add("reveal-prepare"); // Menyuntikkan state awal animasi
-        revealOnScroll.observe(element);
-    });
+    // Helper Format Rupiah
+    function formatRupiah(angka) {
+        return 'Rp ' + angka.toLocaleString('id-ID');
+    }
 
-    // ==========================================================================
-    // 3. MODERN HOVER 3D/TILT EFFECTS (Interaksi Kartu Mengikuti Kursor)
-    // ==========================================================================
-    const interactiveCards = document.querySelectorAll(".menu-card, .address-card, .hours-card, .map-block");
+    // 2. FUNGSI: Hitung ulang jumlah badge & total belanjaan di modal
+    function updateCartUI() {
+        // Update badge total barang belanjaan di navbar header
+        const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+        if (cartCountBadge) cartCountBadge.textContent = totalQty;
 
-    interactiveCards.forEach(card => {
-        card.addEventListener("mousemove", (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left; // Posisi X kursor di dalam kartu
-            const y = e.clientY - rect.top;  // Posisi Y kursor di dalam kartu
+        // Render isi list item belanjaan di dalam modal box keranjang
+        if (!cartItemsList) return;
+        cartItemsList.innerHTML = "";
 
-            // Menghitung derajat rotasi (maksimal 3 derajat agar tetap elegan & tidak pusing)
-            const xc = rect.width / 2;
-            const yc = rect.height / 2;
-            const angleX = (yc - y) / yc * 3;
-            const angleY = (x - xc) / xc * 3;
+        if (cart.length === 0) {
+            cartItemsList.innerHTML = `<p style="text-align:center; color:#888; padding:20px 0;">Keranjang Anda masih kosong.</p>`;
+            if (cartTotalPrice) cartTotalPrice.textContent = "Rp 0";
+            return;
+        }
 
-            card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-5px)`;
+        let subtotalKeseluruhan = 0;
+
+        cart.forEach((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            subtotalKeseluruhan += itemTotal;
+
+            const itemRow = document.createElement("div");
+            itemRow.style.display = "flex";
+            itemRow.style.justifyContent = "space-between";
+            itemRow.style.alignItems = "center";
+            itemRow.style.marginBottom = "12px";
+            itemRow.style.fontSize = "0.95rem";
+
+            itemRow.innerHTML = `
+                <div>
+                    <strong style="color:var(--text-dark);">${item.name}</strong>
+                    <div style="font-size:0.8rem; color:#666;">${formatRupiah(item.price)} x ${item.quantity}</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:600; color:var(--primary-color);">${formatRupiah(itemTotal)}</span>
+                    <button class="btn-remove-item" data-index="${index}" style="background:none; border:none; color:#e74c3c; cursor:pointer; font-size:1.1rem;">&times;</button>
+                </div>
+            `;
+            cartItemsList.appendChild(itemRow);
         });
 
-        // Kembalikan ke posisi semula saat kursor keluar dari kartu
-        card.addEventListener("mouseleave", () => {
-            card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)";
-            card.style.transition = "transform 0.5s ease";
-        });
+        if (cartTotalPrice) cartTotalPrice.textContent = formatRupiah(subtotalKeseluruhan);
 
-        card.addEventListener("mouseenter", () => {
-            card.style.transition = "transform 0.1s ease";
+        // Pasang trigger event hapus item satuan
+        document.querySelectorAll(".btn-remove-item").forEach(btn => {
+            btn.addEventListener("click", function() {
+                const idx = parseInt(this.getAttribute("data-index"));
+                cart.splice(idx, 1);
+                updateCartUI();
+            });
+        });
+    }
+
+    // 3. EVENT: Klik Tombol "Tambah ke Keranjang" di setiap kartu menu
+    document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            const menuName = this.getAttribute("data-name");
+            const menuPrice = parseInt(this.getAttribute("data-price"));
+
+            // Cek apakah item ini sudah ada di dalam keranjang belanja
+            const existingItem = cart.find(item => item.name === menuName);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: menuName,
+                    price: menuPrice,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            alert(`${menuName} berhasil dimasukkan ke keranjang belanja!`);
         });
     });
 
-    // ==========================================================================
-    // 4. MINANG PHILOSOPHICAL QUOTES (Transisi Kebatinan yang Halus)
-    // ==========================================================================
-    const quotes = [
-        "\"Sajauah-jauah bangau tabang, jikok lai jodoh, ka kubangan sato barasuo baliak. Setiap perpisahan hanyalah jeda sebelum pertemuan hangat berikutnya.\"",
-        "\"Aroma randang dan seduhan kopi selalu punya cara rahasia untuk memanggil pulang mereka yang pernah melangkah pergi.\"",
-        "\"Garih rasaki buliah taserak, namun di sinan barasuo cangkir bapatuik, silaturahmi kito ka jalin baliak.\"",
-        "\"Meja kosong yang ditinggalkan hari ini bukanlah akhir cerita, melainkan sebuah ruang tunggu yang lapang bagi kepulanganmu nanti.\""
-    ];
+    // 4. EVENT: Buka & Tutup Modal Box Keranjang Belanja
+    if (cartTriggerBtn && cartModal) {
+        cartTriggerBtn.addEventListener("click", () => {
+            cartModal.style.display = "flex";
+            cartModal.setAttribute("aria-hidden", "false");
+            updateCartUI();
+        });
+    }
 
-    const quoteText = document.getElementById("philosophical-quote");
-    if (quoteText) {
-        let currentQuoteIndex = 0;
-        // Inisialisasi gaya transisi via JS agar aman
-        quoteText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-        
-        setInterval(() => {
-            quoteText.style.opacity = 0;
-            quoteText.style.transform = "translateY(10px)";
+    if (closeCartBtn && cartModal) {
+        closeCartBtn.addEventListener("click", () => {
+            cartModal.style.display = "none";
+            cartModal.setAttribute("aria-hidden", "true");
+        });
+    }
+
+    // 5. EVENT: AKSI UTAMA - KLIK TOMBOL KONFIRMASI & KIRIM PESANAN KE DASHBOARD
+    if (checkoutFinalBtn) {
+        checkoutFinalBtn.addEventListener("click", () => {
+            // Validasi Isi Keranjang Belanja
+            if (cart.length === 0) {
+                alert("Gagal mengirim! Keranjang belanja Anda masih kosong, silahkan pilih menu terlebih dahulu.");
+                return;
+            }
+
+            // Validasi Input Nama Pemesan
+            const namaPemesan = customerNameInput.value.trim();
+            if (!namaPemesan) {
+                alert("Silahkan masukkan Nama Pemesan terlebih dahulu agar Barista tidak salah membuat pesanan!");
+                customerNameInput.focus();
+                return;
+            }
+
+            // Hitung kalkulasi akhir matematika bisnis
+            const totalBayar = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const arrayItemsTeks = cart.map(item => `${item.quantity}x ${item.name}`);
+
+            // Generator ID Unik Sistem (Format: BSO-YYMMDD-RANDOMNUM)
+            const waktuSekarang = new Date();
+            const formatTanggalId = waktuSekarang.toISOString().slice(2,10).replace(/-/g,"");
+            const angkaAcak = Math.floor(1000 + Math.random() * 9000);
+            const generatedId = `BSO-${formatTanggalId}-${angkaAcak}`;
+
+            // Bangun Struktur Objek Data JSON Baru Sesuai Blueprint Database Kasir
+            const orderBaru = {
+                id_pesanan: generatedId,
+                tanggal: waktuSekarang.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }),
+                nama: namaPemesan,
+                meja: tableNumberSelect.value,
+                items: arrayItemsTeks,
+                total_bayar: totalBayar,
+                metode_bayar: paymentMethodSelect.value,
+                status: "Baru"
+            };
+
+            // Ambil database antrean global browser, masukkan data baru, lalu simpan ulang
+            const databaseGlobal = JSON.parse(localStorage.getItem('basuo_database_orders')) || [];
+            databaseGlobal.push(orderBaru);
+            localStorage.setItem('basuo_database_orders', JSON.stringify(databaseGlobal));
+
+            // Beri notifikasi sukses kepada pelanggan
+            alert(`Terima kasih, ${namaPemesan}!\nPesanan Anda berhasil dikirim langsung ke sistem kasir.\nID Pesanan Anda: ${generatedId}`);
+
+            // Reset total formulir input & kosongkan isi keranjang belanja kembali ke 0
+            cart = [];
+            customerNameInput.value = "";
+            if (qrisContainer) qrisContainer.style.display = "none";
+            if (paymentMethodSelect) paymentMethodSelect.value = "Transfer Bank";
             
-            setTimeout(() => {
-                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-                quoteText.textContent = quotes[currentQuoteIndex];
-                quoteText.style.opacity = 1;
-                quoteText.style.transform = "translateY(0)";
-            }, 800);
-        }, 7000);
+            // Tutup modal keranjang dan sinkronisasikan antarmuka visual
+            updateCartUI();
+            cartModal.style.display = "none";
+            cartModal.setAttribute("aria-hidden", "true");
+        });
     }
 });
