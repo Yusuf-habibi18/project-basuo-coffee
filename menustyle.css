@@ -33,7 +33,7 @@ header {
     background-color: rgba(250, 247, 242, 0.85);
     backdrop-filter: blur(15px);
     border-bottom: 1px solid rgba(188, 146, 100, 0.08);
-    padding: 25px 0;
+    padding: 20px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -68,10 +68,18 @@ header {
     object-fit: contain;
 }
 
+/* Menggabungkan UL dan Button dalam satu kesatuan Navigasi */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
 nav ul { 
     display: flex; 
     list-style: none; 
     gap: 30px; 
+    align-items: center;
 }
 
 .nav-link {
@@ -100,14 +108,16 @@ nav ul {
     background: var(--accent-clay);
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 8px 18px;
     border-radius: 20px;
     font-family: var(--font-sans);
     font-weight: 600;
+    font-size: 0.85rem;
     cursor: pointer;
     display: flex;
     gap: 8px;
     align-items: center;
+    white-space: nowrap;
     transition: transform 0.2s, background-color 0.2s;
 }
 
@@ -268,20 +278,20 @@ nav ul {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Hitam transparan backdrop */
-    backdrop-filter: blur(8px); /* Efek blur estetik belakang modal */
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
     z-index: 9999;
-    display: none; /* Dikontrol via JavaScript (flex/none) */
+    display: none;
     justify-content: center;
-    align-items: flex-end; /* Memosisikan pop-up merapat di bawah layar */
+    align-items: flex-end;
 }
 
 .modal-content {
     background-color: var(--bg-main);
     width: 100%;
     max-width: 550px;
-    max-height: 85vh; /* Mengunci agar modal tidak melebihi tinggi monitor */
-    overflow-y: auto; /* Otomatis membuat scroll area jika form memanjang */
+    max-height: 85vh;
+    overflow-y: auto;
     padding: 30px;
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
@@ -290,8 +300,6 @@ nav ul {
     box-shadow: 0 -10px 40px rgba(45, 39, 34, 0.2);
     position: relative;
     border-top: 1px solid rgba(188, 146, 100, 0.3);
-    
-    /* Animasi masuk mulus dari arah bawah */
     animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
@@ -328,7 +336,7 @@ nav ul {
 .cart-items-container {
     margin-bottom: 20px;
     max-height: 200px;
-    overflow-y: auto; /* Scroll khusus jika daftar belanjaan sangat banyak */
+    overflow-y: auto;
     padding-right: 5px;
 }
 
@@ -352,7 +360,6 @@ nav ul {
     color: var(--accent-clay);
 }
 
-/* Form Groups & Inputs */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
@@ -383,7 +390,6 @@ nav ul {
     border-color: var(--accent-clay);
 }
 
-/* Tampilan Kotak QRIS */
 .qris-box {
     text-align: center;
     background-color: #FFFFFF;
@@ -408,7 +414,6 @@ nav ul {
     display: block;
 }
 
-/* Tombol Kirim Utama */
 .checkout-btn {
     width: 100%;
     background: var(--accent-gold);
@@ -451,12 +456,49 @@ footer p {
 }
 
 /* ==========================================================================
-   7. RESPONSIVE LAYOUT (UNTUK LAYAR HP)
+   7. RESPONSIVE LAYOUT (ROMBAK TOTAL UTK MOBILE HP JELEK & BAGUS)
    ========================================================================== */
 @media screen and (max-width: 768px) {
+    header {
+        padding: 15px 0;
+    }
+
+    /* Mencegah logo & navigasi pecah baris di HP */
     .header-container { 
-        flex-direction: column; 
-        gap: 15px; 
+        flex-direction: row; 
+        justify-content: space-between;
+        padding: 0 15px;
+        gap: 10px;
+    }
+    
+    .brand h1 {
+        display: none; /* Menyembunyikan teks nama toko di HP biar menghemat space */
+    }
+
+    .logo {
+        height: 45px; /* Perkecil sedikit logo di HP */
+    }
+
+    /* Menjaga navigasi tetap sejajar horizontal */
+    nav {
+        gap: 12px;
+    }
+
+    nav ul {
+        gap: 12px; /* Memperdekat jarak MENU, PROMO, LOKASI */
+    }
+    
+    .nav-link {
+        font-size: 0.75rem; /* Perkecil teks menu agar cukup satu baris */
+        letter-spacing: 0.5px;
+    }
+
+    /* TOMBOL KERANJANG DI HP: Masuk sejajar di samping LOKASI dengan rapi */
+    .cart-btn {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        gap: 4px;
+        transform: none !important; /* Matikan efek scale biar stabil di touch screen HP */
     }
     
     .try-our-menu .container {
@@ -470,13 +512,14 @@ footer p {
 
     .category-title { 
         font-size: 2rem; 
+        margin-bottom: 40px;
     }
     
     .menu-card { 
         flex-direction: column;
         align-items: center;
-        padding: 30px;
-        gap: 25px;
+        padding: 20px;
+        gap: 20px;
     }
 
     .menu-media-block {
@@ -485,15 +528,35 @@ footer p {
     }
     
     .menu-card-img {
-        height: 230px;
+        height: 200px;
     }
     
     .menu-card h2 { 
         text-align: center; 
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+    }
+
+    .menu-card p {
+        font-size: 0.95rem;
+        text-align: center; /* Lebih seimbang untuk dibaca di mobile */
     }
 
     .modal-content {
-        padding: 25px 20px;
+        padding: 25px 15px;
+        max-height: 90vh;
+    }
+}
+
+/* Proteksi Ekstra Untuk Layar HP Sangat Kecil (Lebar di bawah 360px) */
+@media screen and (max-width: 360px) {
+    nav ul {
+        gap: 8px;
+    }
+    .nav-link {
+        font-size: 0.7rem;
+    }
+    .cart-btn {
+        padding: 5px 8px;
+        font-size: 0.7rem;
     }
 }
