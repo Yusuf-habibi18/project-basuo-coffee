@@ -482,31 +482,40 @@ footer p {
         padding: 15px 0;
     }
 
+    /* Mengubah susunan menjadi vertikal (Brand di atas, Navigasi di bawah) */
     .header-container { 
-        flex-direction: row; 
-        justify-content: space-between;
+        flex-direction: column; 
+        justify-content: center;
+        align-items: center;
         padding: 0 15px;
-        gap: 10px;
+        gap: 15px; /* Jarak antara brand dan baris menu */
     }
     
+    /* Menampilkan kembali tulisan Basuo Coffee */
     .brand h1 {
-        display: none; 
+        display: block; 
+        font-size: 1.5rem; /* Ukuran yang pas untuk layar HP */
     }
 
     .logo {
         height: 45px; 
     }
 
+    /* Menjaga navigasi tetap rata tengah di bawah logo */
     nav {
-        gap: 12px;
+        gap: 0;
+        width: 100%;
+        justify-content: center;
     }
 
     nav ul {
-        gap: 12px; 
+        gap: 20px; /* Jarak antar link menu di HP agar tidak terlalu rapat */
+        justify-content: center;
+        width: 100%;
     }
     
     .nav-link {
-        font-size: 0.75rem; 
+        font-size: 0.8rem; 
         letter-spacing: 0.5px;
     }
 
@@ -572,9 +581,9 @@ footer p {
 
 @media screen and (max-width: 360px) {
     nav ul {
-        gap: 8px;
+        gap: 12px;
     }
     .nav-link {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
     }
 }
