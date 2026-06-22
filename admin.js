@@ -1,222 +1,259 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
-    // Element DOM Hooks
+    // 1. Element DOM Hooks
     const liveOrdersQueue = document.getElementById("live-orders-queue");
+    const salesSection = document.getElementById("sales-analysis-section");
+    const ordersSectionContainer = document.getElementById("orders-section-container");
+    
     const metricRevenue = document.getElementById("metric-revenue");
     const metricNewOrders = document.getElementById("metric-new-orders");
     const metricSuccessOrders = document.getElementById("metric-success-orders");
-    const refreshBtn = document.getElementById("refresh-btn");
-    const tombolReset = document.getElementById("reset-database-btn"); // Hook tombol reset baru
+    
     const liveClock = document.getElementById("live-clock");
+    const tbody = document.getElementById("sales-report-body");
+    const sectionTitleText = document.getElementById("section-title-text");
 
-    // Mode Halaman Aktif (Live Queue vs History)
+    // Navigasi Sidebar
+    const navOrders = document.getElementById("nav-orders");
+    const navHistory = document.getElementById("nav-history");
+    const navSales = document.getElementById("nav-sales");
+
     let currentView = "live"; 
+    let salesChartInstance = null; // Menyimpan instance grafik agar tidak duplikat bug grafik
 
-    // 1. JAM LIVE DIGITAL DASHBOARD
-    if (liveClock) {
-        setInterval(() => {
-            const sekarang = new Date();
-            liveClock.textContent = sekarang.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'medium' });
-        }, 1000);
-    }
-
-    // Helper Format Rupiah
+    // 2. Helper Functions
     function formatRupiah(angka) {
-        return 'Rp ' + angka.toLocaleString('id-ID');
+        return 'Rp ' + parseInt(angka).toLocaleString('id-ID');
     }
 
-    // 2. FUNGSI UTAMA ENGINE BACKEND: BACA & TAMPILKAN DATABASE
-    function loadDashboardData() {
-        // Ambil baris data antrean dari localStorage pusat
-        let databasePesanan = JSON.parse(localStorage.getItem('basuo_database_orders')) || [];
-        
-        
-        // Bersihkan area papan antrean sebelum render ulang
-        if (liveOrdersQueue) liveOrdersQueue.innerHTML = "";
+    function getOrders() {
+        return JSON.parse(localStorage.getItem('basuo_database_orders')) || [];
+    }
 
-        // Deklarasi variabel penampung hitungan matematika keuangan
-        let totalPendapatan = 0;
-        let jumlahPesananBaru = 0;
-        let jumlahPesananSelesai = 0;
+    // 3. FUNGSI UTAMA INTEGRASI CHART.JS (PILIHAN 2)
+    function renderChart(orders) {
+        const ctx = document.getElementById('revenueChart');
+        if (!ctx) return;
 
-        // Penampung sementara fragmen HTML agar render aman & tombol tidak macet
-        const fragment = document.createDocumentFragment();
+        // Filter hanya pesanan yang sukses/selesai
+        const completedOrders = orders.filter(o => o.status === "Selesai");
 
-        // Lakukan perulangan data (Looping Inverse agar orderan paling baru muncul di atas)
-        for (let i = databasePesanan.length - 1; i >= 0; i--) {
-            const order = databasePesanan[i];
+        // Kelompokkan omset berdasarkan tanggal unik
+        const revenueData = {};
+        completedOrders.forEach(o => {
+            let dateKey = o.tanggal ? o.tanggal.split(' ')[0] : new Date().toLocaleDateString('id-ID'); 
+            let total = parseInt(o.total_bayar || o.total || 0);
+            revenueData[dateKey] = (revenueData[dateKey] || 0) + total;
+        });
 
-            // Kalkulasi matematika bisnis untuk Counter Cards indikator atas
-            if (order.status === "Selesai") {
-                totalPendapatan += order.total_bayar;
-                jumlahPesananSelesai++;
-            } else if (order.status === "Baru") {
-                jumlahPesananBaru++;
-            }
+        // Urutkan Tanggal Secara Kronologis (Kiri Ke Kanan / Lama Ke Baru)
+        const sortedLabels = Object.keys(revenueData).sort((a, b) => {
+            const parseDate = (str) => {
+                const parts = str.split(/[-\/]/);
+                return parts.length === 3 ? new Date(parts[2], parts[1] - 1, parts[0]) : new Date(str);
+            };
+            return parseDate(a) - parseDate(b);
+        });
 
-            // Filter Tampilan Berdasarkan Menu Navigasi Samping (Live vs History)
-            if (currentView === "live" && order.status === "Selesai") continue;
-            if (currentView === "history" && order.status !== "Selesai") continue;
+        // Ambil data uang yang sudah terurut sesuai tanggalnya
+        const dataPoints = sortedLabels.map(date => revenueData[date]);
 
-            // Membangun Komponen HTML Kartu Tiket Pesanan Barista
-            const ticketCard = document.createElement("article");
-            ticketCard.className = "order-ticket";
-
-            // Atur tombol aksi dinamis berdasarkan status operasional
-            let actionButtonHTML = "";
-            if (order.status === "Baru") {
-                actionButtonHTML = `<button class="action-btn btn-process" data-id="${order.id_pesanan}">👨‍🍳 Proses Di Barista</button>`;
-            } else if (order.status === "Diproses") {
-                actionButtonHTML = `<button class="action-btn btn-complete" data-id="${order.id_pesanan}">✅ Siap Disajikan</button>`;
-            } else {
-                actionButtonHTML = `<p style="text-align:center; font-size:0.85rem; color:var(--text-muted); font-weight:600;">✓ Transaksi Selesai</p>`;
-            }
-
-            // Susun item menu belanjaan
-            const itemsHTML = order.items.map(item => `<li>${item}</li>`).join("");
-
-            ticketCard.innerHTML = `
-                <div class="ticket-header">
-                    <div>
-                        <span class="ticket-id">${order.id_pesanan}</span>
-                        <div class="ticket-date">${order.tanggal}</div>
-                    </div>
-                    <span class="badge ${order.status.toLowerCase()}">${order.status}</span>
-                </div>
-                <div class="ticket-body">
-                    <div class="cust-info">
-                        <div class="cust-name">${order.nama}</div>
-                        <div class="cust-table">📍 ${order.meja}</div>
-                    </div>
-                    <p class="item-list-title">Daftar Menu:</p>
-                    <ul class="ticket-items">
-                        ${itemsHTML}
-                    </ul>
-                </div>
-                <div class="ticket-footer">
-                    <div class="ticket-total">
-                        <span>Total:</span>
-                        <span>${formatRupiah(order.total_bayar)}</span>
-                    </div>
-                    <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:5px; font-weight:600;">
-                        💳 ${order.metode_bayar || 'Tunai'}
-                    </div>
-                    ${actionButtonHTML}
-                </div>
-            `;
-
-            fragment.appendChild(ticketCard);
+        // Hancurkan grafik lama jika layar di-refresh/render ulang agar tidak tumpang tindih
+        if (salesChartInstance) {
+            salesChartInstance.destroy();
         }
 
-        // Masukkan semua kartu ke container utama
-        if (liveOrdersQueue) {
-            if (fragment.children.length === 0) {
-                liveOrdersQueue.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 50px 0; color: var(--text-muted);">
-                        <p style="font-size: 1.1rem; font-weight: 600;">Tidak ada pesanan dalam kategori ini.</p>
-                    </div>
-                `;
+        // Tampilan Grafik Garis Premium ala Aplikasi Kasir Moka POS
+        salesChartInstance = new Chart(ctx, {
+            type: 'line', 
+            data: {
+                labels: sortedLabels.length > 0 ? sortedLabels : ['Belum Ada Transaksi Selesai'],
+                datasets: [{
+                    label: 'Omset Harian',
+                    data: dataPoints.length > 0 ? dataPoints : [0],
+                    borderColor: '#0D6EFD', // Warna Biru Elegan
+                    backgroundColor: 'rgba(13, 110, 253, 0.08)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#FFFFFF',
+                    pointBorderColor: '#0D6EFD',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    fill: true,
+                    tension: 0.25 // Efek kelengkungan halus
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ' Pendapatan: ' + formatRupiah(context.raw);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) { return formatRupiah(value); }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 4. FUNGSI UTAMA RENDER DASHBOARD
+    function renderDashboard() {
+        const orders = getOrders();
+        
+        // --- A. Atur Tampilan Menu Navigasi ---
+        if (currentView === "sales") {
+            liveOrdersQueue.style.display = "none";
+            ordersSectionContainer.style.display = "none"; 
+            salesSection.style.display = "block";
+            renderChart(orders); // Aktifkan grafik saat masuk tab Data Penjualan
+        } else {
+            salesSection.style.display = "none";
+            ordersSectionContainer.style.display = "block";
+            liveOrdersQueue.style.display = "grid"; 
+            if (sectionTitleText) {
+                sectionTitleText.textContent = currentView === "live" ? "Antrean Pesanan Masuk" : "Riwayat Transaksi (Selesai)";
+            }
+        }
+
+        // --- B. Render Kartu Pesanan ---
+        if (liveOrdersQueue && currentView !== "sales") {
+            liveOrdersQueue.innerHTML = "";
+            const fragment = document.createDocumentFragment();
+            
+            const filteredOrders = currentView === "live" 
+                ? orders.filter(o => o.status !== "Selesai")
+                : orders.filter(o => o.status === "Selesai");
+
+            if (filteredOrders.length === 0) {
+                liveOrdersQueue.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 50px 0; color: #888;">Tidak ada pesanan di kategori ini.</div>`;
             } else {
+                filteredOrders.slice().reverse().forEach(order => {
+                    const ticketCard = document.createElement("article");
+                    ticketCard.className = "order-ticket";
+                    
+                    let actionBtn = order.status === "Baru" ? `<button class="action-btn btn-process" data-id="${order.id_pesanan}">👨‍🍳 Proses</button>` :
+                                    order.status === "Diproses" ? `<button class="action-btn btn-complete" data-id="${order.id_pesanan}">✅ Siap Saji</button>` : 
+                                    `<p style="text-align:center; font-size:0.8rem; color:green; font-weight:600;">✓ Transaksi Selesai</p>`;
+                    
+                    const itemsArray = Array.isArray(order.items) ? order.items : [];
+                    const itemsHTML = itemsArray.map(i => `<li>${i}</li>`).join("");
+
+                    ticketCard.innerHTML = `
+                        <div class="ticket-header">
+                            <div><span class="ticket-id">${order.id_pesanan || '#INV-000'}</span><div class="ticket-date">${order.tanggal || '-'}</div></div>
+                            <span class="badge ${order.status.toLowerCase()}">${order.status}</span>
+                        </div>
+                        <div class="ticket-body">
+                            <div class="cust-name">${order.nama}</div>
+                            <div class="cust-table">📍 ${order.meja}</div>
+                            <ul class="ticket-items">${itemsHTML}</ul>
+                        </div>
+                        <div class="ticket-footer">
+                            <div class="ticket-total"><span>Total:</span><span>${formatRupiah(order.total_bayar || order.total || 0)}</span></div>
+                            ${actionBtn}
+                        </div>`;
+                    fragment.appendChild(ticketCard);
+                });
                 liveOrdersQueue.appendChild(fragment);
             }
         }
 
-        // Suntikkan hasil hitungan matematika keuangan ke Counter Cards atas secara real-time
-        if (metricRevenue) metricRevenue.textContent = formatRupiah(totalPendapatan);
-        if (metricNewOrders) metricNewOrders.textContent = jumlahPesananBaru;
-        if (metricSuccessOrders) metricSuccessOrders.textContent = `${jumlahPesananSelesai} Sukses`;
+        // --- C. Render Baris Tabel Laporan ---
+        if (tbody && currentView === "sales") {
+            tbody.innerHTML = '';
+            orders.slice().reverse().forEach(item => {
+                if(item.status === "Selesai") {
+                    const itemsArray = Array.isArray(item.items) ? item.items : [item.menu]; 
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td style="padding: 15px;">${item.tanggal || item.waktu || '-'}</td>
+                        <td style="padding: 15px;">${item.nama}</td>
+                        <td style="padding: 15px;">${itemsArray.join(", ")}</td>
+                        <td style="padding: 15px; text-align: right; font-weight: 700;">${formatRupiah(item.total_bayar || item.total || 0)}</td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            });
+        }
 
-        // Daftarkan ulang Event Listener klik tombol aksi setelah kartu disuntik ke DOM
+        // --- D. Mengisi 3 Kartu Metrik Ringkasan ---
+        const totalPendapatan = orders.filter(o => o.status === "Selesai").reduce((sum, o) => sum + parseInt(o.total_bayar || o.total || 0), 0);
+        if (metricRevenue) metricRevenue.textContent = formatRupiah(totalPendapatan);
+        if (metricNewOrders) metricNewOrders.textContent = orders.filter(o => o.status === "Baru").length;
+        if (metricSuccessOrders) metricSuccessOrders.textContent = `${orders.filter(o => o.status === "Selesai").length} Transaksi`;
+
         bindActionButtons();
     }
 
-    // 3. FUNGSI CONTROLLER: UBAH STATUS ANTRIAN PESANAN
+    // 5. Controller Pengubah Status Transaksi
     function bindActionButtons() {
-        // Pemicu Klik Tombol "Proses Di Barista"
-        document.querySelectorAll(".btn-process").forEach(btn => {
-            btn.replaceWith(btn.cloneNode(true)); // Hapus sisa duplikasi event listener lama
+        document.querySelectorAll(".btn-process, .btn-complete").forEach(btn => {
+            btn.onclick = () => {
+                const id = btn.getAttribute("data-id");
+                const newStatus = btn.classList.contains("btn-process") ? "Diproses" : "Selesai";
+                let orders = getOrders().map(o => o.id_pesanan === id ? {...o, status: newStatus} : o);
+                localStorage.setItem('basuo_database_orders', JSON.stringify(orders));
+                renderDashboard();
+            };
         });
-        document.querySelectorAll(".btn-process").forEach(btn => {
-            btn.addEventListener("click", function() {
-                const idTarget = this.getAttribute("data-id");
-                updateOrderStatus(idTarget, "Diproses");
+    }
+
+    function switchTab(activeTab, viewName) {
+        [navOrders, navHistory, navSales].forEach(nav => {
+            if(nav) nav.classList.remove("aktif");
+        });
+        activeTab.classList.add("aktif");
+        currentView = viewName;
+        renderDashboard();
+    }
+
+    if (navOrders) navOrders.onclick = (e) => { e.preventDefault(); switchTab(navOrders, "live"); };
+    if (navHistory) navHistory.onclick = (e) => { e.preventDefault(); switchTab(navHistory, "history"); };
+    if (navSales) navSales.onclick = (e) => { e.preventDefault(); switchTab(navSales, "sales"); };
+
+    // 6. Fitur Ekspor File CSV Excel
+    const exportBtn = document.getElementById("export-csv-btn");
+    if (exportBtn) {
+        exportBtn.onclick = () => {
+            const orders = getOrders().filter(o => o.status === "Selesai"); 
+            if (orders.length === 0) return alert("Belum ada data penjualan selesai untuk diekspor!");
+
+            let csvContent = "ID Pesanan,Waktu,Nama Pelanggan,Meja,Status,Menu Pesanan,Total Harga\n";
+
+            orders.forEach(o => {
+                const itemsArray = Array.isArray(o.items) ? o.items : [o.menu];
+                const menuClean = itemsArray.join(" + ").replace(/"/g, '""'); 
+                const harga = o.total_bayar || o.total || 0;
+                
+                const row = `${o.id_pesanan || '-'},${o.tanggal || o.waktu || '-'},${o.nama},${o.meja || '-'},${o.status},"${menuClean}",${harga}\n`;
+                csvContent += row;
             });
-        });
 
-        // Pemicu Klik Tombol "Siap Disajikan"
-        document.querySelectorAll(".btn-complete").forEach(btn => {
-            btn.replaceWith(btn.cloneNode(true));
-        });
-        document.querySelectorAll(".btn-complete").forEach(btn => {
-            btn.addEventListener("click", function() {
-                const idTarget = this.getAttribute("data-id");
-                updateOrderStatus(idTarget, "Selesai");
-            });
-        });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Laporan_Omset_Basuo_${new Date().toISOString().slice(0,10)}.csv`;
+            link.click();
+        };
     }
 
-    function updateOrderStatus(id, statusBaru) {
-        let databasePesanan = JSON.parse(localStorage.getItem('basuo_database_orders')) || [];
-        
-        // Cari ID pesanan di database lalu timpa status lamanya
-        databasePesanan = databasePesanan.map(order => {
-            if (order.id_pesanan === id) {
-                order.status = statusBaru;
-            }
-            return order;
-        });
+    // 7. Tombol Segarkan & Jam Digital
+    const refreshBtn = document.getElementById("refresh-btn");
+    const tombolReset = document.getElementById("reset-database-btn");
+    if(refreshBtn) refreshBtn.onclick = renderDashboard;
+    if(tombolReset) tombolReset.onclick = () => { if(confirm("Yakin ingin menghapus seluruh data transaksi di sistem?")) { localStorage.removeItem('basuo_database_orders'); window.location.reload(); }};
+    if(liveClock) setInterval(() => liveClock.textContent = new Date().toLocaleString('id-ID'), 1000);
 
-        // Tulis ulang database baru yang sudah diupdate ke localStorage
-        localStorage.setItem('basuo_database_orders', JSON.stringify(databasePesanan));
-        
-        // Segarkan layar dashboard kasir detik itu juga
-        loadDashboardData();
-    }
-
-    // 4. NAVIGASI SIDEBAR CONTROLLER
-    const navOrders = document.getElementById("nav-orders");
-    const navHistory = document.getElementById("nav-history");
-    const sectionTitle = document.querySelector(".orders-section h2") || document.querySelector(".section-header h2");
-
-    if (navOrders && navHistory) {
-        navOrders.addEventListener("click", (e) => {
-            e.preventDefault();
-            currentView = "live";
-            navOrders.classList.add("aktif");
-            navHistory.classList.remove("aktif");
-            if (sectionTitle) sectionTitle.textContent = "Antrean Pesanan Masuk (Real-Time)";
-            loadDashboardData();
-        });
-
-        navHistory.addEventListener("click", (e) => {
-            e.preventDefault();
-            currentView = "history"; // Typos huruf 'a' nyasar di kode lama sudah dibersihkan di sini
-            navHistory.classList.add("aktif");
-            navOrders.classList.remove("aktif");
-            if (sectionTitle) sectionTitle.textContent = "Riwayat Transaksi";
-            loadDashboardData();
-        });
-    }
-
-    // Trigger tombol refresh manual
-    if (refreshBtn) {
-        refreshBtn.addEventListener("click", loadDashboardData);
-    }
-
-    // ==========================================================================
-    // LOGIKA PENGAKTIF TOMBOL RESET DATABASE (INTEGRASI BARU)
-    // ==========================================================================
-    if (tombolReset) {
-        tombolReset.addEventListener("click", () => {
-            const konfirmasi = confirm("⚠️ PERINGATAN!\n\nApakah Anda yakin ingin menghapus seluruh data transaksi dan mereset pendapatan hari ini menjadi Rp 0?");
-            if (konfirmasi) {
-                localStorage.removeItem('basuo_database_orders'); // Hapus memori browser
-                alert("Database berhasil dibersihkan!");
-                window.location.reload(); // Muat ulang halaman
-            }
-        });
-    }
-
-    // Jalankan render data otomatis saat pertama kali halaman admin dibuka
-    loadDashboardData();
+    // Booting awal dashboard ketika pertama dimuat
+    renderDashboard();
 });
