@@ -6,7 +6,7 @@
     --bg-admin-surface: #F8F9FA;  /* Putih Keabu-abuan (Untuk Card / Sidebar) */
     --bg-admin-sidebar: #F1F3F5;  /* Sampingan Sidebar agar Terpisah Bersih */
     
-    /* Warna Aksen Utama Sesuai Gambar */
+    /* Warna Aksen Utama */
     --accent-blue: #0D6EFD;       /* Biru Elektrik Terang (Tombol Utama & Navigasi Aktif) */
     --accent-blue-hover: #0B5ED7; /* Biru Gelap Saat Hover */
     
@@ -33,14 +33,18 @@
 body {
     background-color: var(--bg-admin-base);
     color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
+/* BASE LAYOUT */
 .admin-layout {
     display: flex;
     min-height: 100vh;
+    width: 100%;
 }
 
-/* SIDEBAR NAVIGASI - STYLE PUTIH HITAM BIRU */
+/* SIDEBAR NAVIGASI PADA DESKTOP (PC) */
 .sidebar {
     width: 280px;
     background-color: var(--bg-admin-sidebar);
@@ -48,6 +52,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 30px 20px;
+    flex-shrink: 0;
 }
 
 .sidebar-brand h2 {
@@ -76,21 +81,28 @@ body {
     border-radius: 8px;
     margin-bottom: 10px;
     font-weight: 600;
+    font-size: 0.95rem;
     transition: all 0.2s ease;
 }
 
-/* Navigasi Aktif Menggunakan Biru Elektrik Persis Tombol Prediksi di Gambar */
 .sidebar-link:hover, .sidebar-link.aktif {
     background-color: var(--accent-blue);
     color: #FFFFFF;
     box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
 }
 
-/* KONTEN UTAMA */
+.sidebar-footer {
+    margin-top: auto;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* KONTEN UTAMA RIGHT SIDE */
 .main-content {
     flex: 1;
     padding: 40px;
     overflow-y: auto;
+    width: 100%;
 }
 
 .content-header {
@@ -106,9 +118,16 @@ body {
     font-family: 'Playfair Display', serif;
     color: var(--text-dark);
     font-weight: 800;
+    font-size: 1.8rem;
 }
 
-/* METRICS / COUNTER CARDS */
+#live-clock {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* METRICS GRID COUNTER */
 .metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -120,7 +139,7 @@ body {
     background-color: var(--bg-admin-surface);
     padding: 25px;
     border-radius: 12px;
-    border-left: 4px solid var(--accent-blue); /* Aksen Garis Card diubah ke Biru */
+    border-left: 4px solid var(--accent-blue);
     box-shadow: var(--shadow-flat);
     border-top: var(--border-clean);
     border-right: var(--border-clean);
@@ -128,7 +147,7 @@ body {
 }
 
 .metric-card h3 {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -148,7 +167,7 @@ body {
 
 /* AREA ANTRIAN KARTU PESANAN */
 .orders-section {
-    margin-top: 20px; /* Jarak aman antara metric card atas dengan area antrean */
+    margin-top: 20px;
 }
 
 .section-header {
@@ -156,22 +175,27 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
+    gap: 15px;
 }
 
 .section-header h2 {
     color: var(--text-dark);
-    font-size: 1.4rem;  /* Mengikuti ukuran proporsional yang baru */
-    font-weight: 700;   /* Lebih bersih dan tidak terlalu tebal berlebih */
+    font-size: 1.35rem;
+    font-weight: 700;
 }
 
 .refresh-button {
     background-color: #FFFFFF;
     border: 1px solid #CED4DA;
     color: var(--text-dark);
-    padding: 8px 16px;
+    padding: 10px 18px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     transition: all 0.2s ease;
 }
 
@@ -179,17 +203,18 @@ body {
     background-color: var(--bg-admin-surface);
 }
 
-/* Grid layout untuk menyusun kartu-kartu pesanan ke samping secara otomatis */
+/* Grid layout untuk tiket barista */
 .orders-queue-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
 }
-/* DESAIN KARTU TIKET BARISTA */
+
+/* DESAIN KARTU TIKET */
 .order-ticket {
     background-color: var(--bg-admin-surface);
     border-radius: 12px;
-    padding: 25px;
+    padding: 22px;
     border: var(--border-clean);
     box-shadow: var(--shadow-flat);
     display: flex;
@@ -226,7 +251,7 @@ body {
 }
 
 .cust-name {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 800;
     color: var(--text-dark);
 }
@@ -260,7 +285,7 @@ body {
     padding-top: 15px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .ticket-total {
@@ -274,27 +299,18 @@ body {
 /* BADGES INDIKATOR KAPSUL */
 .badge {
     padding: 6px 14px;
-    border-radius: 20px; /* Melengkung kapsul persis menu atas gambar */
+    border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     display: inline-block;
 }
 
-.badge.baru { 
-    background-color: var(--status-barju); 
-    color: #FFFFFF; 
-}
-.badge.diproses { 
-    background-color: var(--status-proses); 
-    color: #FFFFFF; 
-}
-.badge.selesai { 
-    background-color: var(--status-selesai); 
-    color: #FFFFFF; 
-}
+.badge.baru { background-color: var(--status-barju); color: #FFFFFF; }
+.badge.diproses { background-color: var(--status-proses); color: #FFFFFF; }
+.badge.selesai { background-color: var(--status-selesai); color: #FFFFFF; }
 
-/* ACTION BUTTONS (TOMBOL UTAMA BIRU ELEKTRIK) */
+/* ACTION BUTTONS */
 .action-btn {
     width: 100%;
     padding: 12px;
@@ -302,23 +318,168 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition: all 0.2s ease;
 }
 
-/* Menggunakan Warna Biru Elektrik Terang Persis Tombol "Jalankan Prediksi" */
 .btn-process { 
     background-color: var(--accent-blue); 
     color: #FFFFFF; 
 }
-.btn-process:hover {
-    background-color: var(--accent-blue-hover);
-}
+.btn-process:hover { background-color: var(--accent-blue-hover); }
 
 .btn-complete { 
     background-color: var(--status-selesai); 
     color: #FFFFFF; 
 }
-.btn-complete:hover {
-    opacity: 0.9;
+.btn-complete:hover { opacity: 0.9; }
+
+/* STYLE DATA PENJUALAN & TABEL */
+#sales-report-container {
+    background: #FFFFFF;
+    border-radius: 8px;
+    border: var(--border-clean);
+    width: 100%;
+}
+
+#sales-report-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#sales-report-container thead tr {
+    background-color: #FAF7F2;
+    border-bottom: 2px solid #E9ECEF;
+}
+
+#sales-report-container th {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 18px;
+    text-align: left;
+}
+
+#sales-report-container td {
+    padding: 16px 18px;
+    border-bottom: var(--border-clean);
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+#sales-report-container tbody tr:hover {
+    background-color: #F8F9FA;
+}
+
+#export-csv-btn {
+    background-color: #198754 !important;
+    transition: all 0.2s ease;
+}
+
+#export-csv-btn:hover {
+    background-color: #157347 !important;
+    transform: translateY(-2px);
+}
+
+#sales-report-container td:last-child, 
+#sales-report-container th:last-child {
+    text-align: right;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   SISTEM RESPONSIVITAS MOBILE (MEDIA QUERY HANDPHONE)
+   ========================================================================== */
+@media screen and (max-width: 992px) {
+    .admin-layout {
+        flex-direction: column; /* Mengubah susunan sidebar kiri & kanan menjadi atas bawah */
+    }
+
+    /* Merubah sidebar menjadi top navigation bar di HP */
+    .sidebar {
+        width: 100%;
+        padding: 20px;
+        border-right: none;
+        border-bottom: var(--border-clean);
+    }
+
+    .sidebar-brand p {
+        margin-bottom: 20px;
+    }
+
+    /* Menu horizontal agar hemat tempat */
+    .sidebar-nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .sidebar-nav li {
+        flex: 1;
+        min-width: 130px;
+    }
+
+    .sidebar-link {
+        margin-bottom: 0;
+        text-align: center;
+        padding: 12px 10px;
+        font-size: 0.85rem;
+    }
+
+    .sidebar-footer {
+        display: none; /* Hilangkan hak cipta di mobile menu agar bersih */
+    }
+
+    .main-content {
+        padding: 25px 15px; /* Kurangi padding utama agar luas */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    /* Pembungkus tombol refresh & reset agar sejajar rapi */
+    .section-header div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .section-header button {
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* PAKSA TABEL AGAR BISA DI-SCROLL KE SAMPING (TIDAK MERUSAK LEBAR LAYAR HP) */
+    #sales-report-container {
+        overflow-x: auto;
+        display: block;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #sales-report-container table {
+        min-width: 600px; /* Lebar minimal tabel di dalam scroll area mobile */
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr; /* Kartu indikator menumpuk satu per satu */
+        gap: 15px;
+    }
+    
+    .orders-queue-grid {
+        grid-template-columns: 1fr; /* Kartu tiket pesanan mengambil lebar penuh layar HP */
+    }
 }
