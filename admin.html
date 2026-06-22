@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basuo Coffee | Dashboard Kasir & Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="adminstyle.css"> 
+    <!-- MEMANGGIL LIBRARY CHART.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -18,8 +19,9 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#" class="sidebar-link aktif" id="nav-orders"> Pesanan Live</a></li>
+                    <li><a href="#" class="sidebar-link aktif" id="nav-orders">Pesanan Live</a></li>
                     <li><a href="#" class="sidebar-link" id="nav-history">Riwayat Transaksi</a></li>
+                    <li><a href="#" class="sidebar-link" id="nav-sales">Data Penjualan</a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -48,16 +50,12 @@
                 </div>
             </section>
 
-            <section class="orders-section">
+            <!-- AREA ANTREAN & RIWAYAT KARTU -->
+            <section class="orders-section" id="orders-section-container">
                 <div class="section-header">
-                    <h2>Antrean Pesanan</h2>
-                    
-                    <!-- KOTAK BUTTON DI SUDUT KANAN -->
+                    <h2 id="section-title-text">Antrean Pesanan</h2>
                     <div style="display: flex; gap: 10px; align-items: center;">
-                        <!-- Tombol Segarkan bawaan tokomu -->
                         <button id="refresh-btn" class="refresh-button">🔄 Segarkan Data</button>
-                        
-                        <!-- TOMBOL RESET DATABASE WARNA MERAH -->
                         <button id="reset-database-btn" style="background-color: #d9534f; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background-color 0.2s;">
                             Reset data
                         </button>
@@ -66,6 +64,36 @@
 
                 <div id="live-orders-queue" class="orders-queue-grid">
                      <!-- Tempat kartu pesanan masuk -->
+                </div>
+            </section>
+
+            <!-- AREA TABEL & GRAFIK DATA PENJUALAN -->
+            <section id="sales-analysis-section" style="display: none;">
+                <div class="section-header" style="margin-top: 20px;">
+                    <h2>Dashboard Grafik Omset Harian</h2>
+                    <button id="export-csv-btn" class="refresh-button" style="background-color: #198754; color: white; border: none; cursor: pointer;">⬇️ Ekspor ke CSV</button>
+                </div>
+                
+                <!-- BOX WIDGET UNTUK GRAFIK LINE CHART -->
+                <div style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #E9ECEF; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin-bottom: 25px;">
+                    <h3 style="font-family: 'Montserrat', sans-serif; font-size: 1rem; color: #495057; margin-bottom: 15px; font-weight: 600;"> Grafik Pendapatan Bulanan</h3>
+                    <canvas id="revenueChart" height="90"></canvas>
+                </div>
+                
+                <div id="sales-report-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>Nama Pelanggan</th>
+                                <th>Menu</th>
+                                <th style="text-align: right;">Total Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-report-body">
+                            <!-- Data akan diisi otomatis -->
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </main>
