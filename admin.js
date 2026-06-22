@@ -12,9 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const navOrders = document.getElementById("nav-orders");
     const navHistory = document.getElementById("nav-history");
     const navSales = document.getElementById("nav-sales");
-    const sectionTitle = document.querySelector(".orders-section h2") || document.querySelector(".section-header h2");
+    const ordersSectionContainer = document.getElementById("orders-section-container");
 
     let currentView = "live"; // Mode Tampilan: 'live', 'history', atau 'sales'
+    let revenueChartInstance = null; // Menyimpan instance grafik Chart.js
 
     // 2. Helper Functions
     function formatRupiah(angka) {
@@ -36,29 +37,106 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000);
     }
 
-    // 4. Fungsi Utama Render Tampilan Dashboard
+    // 4. Fungsi Menggambar Grafik Menggunakan Chart.js
+    function renderRevenueChart(orders) {
+        const ctx = document.getElementById('revenueChart');
+        if (!ctx) return;
+
+        // Filter hanya transaksi yang sukses/Selesai
+        const completedOrders = orders.filter(o => o.status === "Selesai");
+
+        // Akumulasi total pendapatan berdasarkan Tanggal
+        const revenueMap = {};
+        completedOrders.forEach(o => {
+            let dateKey = o.tanggal || o.waktu || "Tanpa Tanggal";
+            if (dateKey.includes(",")) {
+                dateKey = dateKey.split(",")[0].trim();
+            }
+            // Bersihkan data jika ada string/format Rp dalam database
+            let nominal = typeof o.total_bayar === 'string' ? o.total_bayar.replace(/[^0-9]/g, '') : o.total_bayar;
+            revenueMap[dateKey] = (revenueMap[dateKey] || 0) + parseInt(nominal || 0);
+        });
+
+        const labels = Object.keys(revenueMap);
+        const dataValues = Object.values(revenueMap);
+
+        // Jika grafik sudah pernah digambar sebelumnya, hapus dulu agar tidak tumpang tindih
+        if (revenueChartInstance) {
+            revenueChartInstance.destroy();
+        }
+
+        // Gambar Grafik Baru berbentuk Line Chart (Garis Elegan)
+        revenueChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels.length ? labels : ["Belum Ada Data"],
+                datasets: [{
+                    label: 'Omset Penjualan Bersih',
+                    data: dataValues.length ? dataValues : [0],
+                    borderColor: '#0D6EFD',
+                    backgroundColor: 'rgba(13, 110, 253, 0.08)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    fill: true,
+                    pointBackgroundColor: '#0D6EFD',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + value.toLocaleString('id-ID');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 5. Fungsi Utama Render Tampilan Dashboard
     function renderDashboard() {
         const orders = getOrders();
         
-        // Atur Visibilitas Konten Utama (Kartu Antrean vs Tabel Penjualan)
+        // Atur Visibilitas Konten Utama (Dua Section Utama di HTML)
         if (currentView === "sales") {
-            if (liveOrdersQueue) liveOrdersQueue.style.display = "none";
+            if (ordersSectionContainer) ordersSectionContainer.style.display = "none";
             if (salesSection) salesSection.style.display = "block";
-            if (sectionTitle) sectionTitle.textContent = "Dashboard Data Penjualan";
+            
+            // FIX: Diberi sedikit delay (50ms) agar browser selesai mengubah display menjadi 'block' 
+            // sebelum Chart.js menghitung lebar pixel canvas.
+            setTimeout(() => {
+                renderRevenueChart(orders);
+            }, 50);
         } else {
-            if (liveOrdersQueue) liveOrdersQueue.style.display = "grid"; 
+            if (ordersSectionContainer) ordersSectionContainer.style.display = "block"; 
             if (salesSection) salesSection.style.display = "none";
-            if (sectionTitle) {
-                sectionTitle.textContent = currentView === "live" ? "Antrean Pesanan Masuk (Real-Time)" : "Riwayat Transaksi";
+            
+            const titleText = document.getElementById("section-title-text");
+            if (titleText) {
+                titleText.textContent = currentView === "live" ? "Antrean Pesanan Masuk (Real-Time)" : "Riwayat Transaksi Terarsip";
             }
         }
 
-        // --- Bagian A: Render Antrean Tiket / Kartu (Live & History) ---
+        // --- Bagian A: Render Kartu Pesanan (Live & History) ---
         if (liveOrdersQueue && currentView !== "sales") {
             liveOrdersQueue.innerHTML = "";
             const fragment = document.createDocumentFragment();
             
-            // Filter data pesanan berdasarkan tab aktif
             const filteredOrders = currentView === "live" 
                 ? orders.filter(o => o.status !== "Selesai")
                 : orders.filter(o => o.status === "Selesai");
@@ -69,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p style="font-size: 1.1rem; font-weight: 600;">Tidak ada pesanan di kategori ini.</p>
                     </div>`;
             } else {
-                // Tampilkan dari yang paling baru di atas (.reverse())
                 filteredOrders.slice().reverse().forEach(order => {
                     const ticketCard = document.createElement("article");
                     ticketCard.className = "order-ticket";
@@ -137,34 +214,25 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // --- Bagian C: Update Informasi Kartu Indikator Atas (Metrik) ---
-        const totalPendapatan = orders.filter(o => o.status === "Selesai").reduce((sum, o) => sum + (o.total_bayar || 0), 0);
+        // --- Bagian C: Update Informasi Tiga Kartu Metrik Di Atas ---
+        const totalPendapatan = orders.filter(o => o.status === "Selesai").reduce((sum, o) => sum + parseInt(o.total_bayar || 0), 0);
         if (metricRevenue) metricRevenue.textContent = formatRupiah(totalPendapatan);
         if (metricNewOrders) metricNewOrders.textContent = orders.filter(o => o.status === "Baru").length;
-        if (metricSuccessOrders) metricSuccessOrders.textContent = `${orders.filter(o => o.status === "Selesai").length} Sukses`;
-
-        bindActionButtons();
+        if (metricSuccessOrders) metricSuccessOrders.textContent = `${orders.filter(o => o.status === "Selesai").length} Transaksi`;
     }
 
-    // 5. Mengatur Tombol Update Status Pesanan (Proses & Selesai)
-    if (!window.actionButtonsBound) {
-        window.actionButtonsBound = true;
-        // Gunakan event delegation agar listener tidak hilang saat render ulang
-        document.addEventListener("click", (e) => {
-            if (e.target.classList.contains("btn-process") || e.target.classList.contains("btn-complete")) {
-                const id = e.target.getAttribute("data-id");
-                const newStatus = e.target.classList.contains("btn-process") ? "Diproses" : "Selesai";
-                let orders = getOrders().map(o => o.id_pesanan === id ? {...o, status: newStatus} : o);
-                localStorage.setItem('basuo_database_orders', JSON.stringify(orders));
-                renderDashboard();
-            }
-        });
-    }
-    
-    // Tempat penampung kosmetik pendaftaran ulang jika diperlukan script lama
-    function bindActionButtons() {}
+    // 6. Event Delegation untuk Tombol Ubah Status Pesanan
+    document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("btn-process") || e.target.classList.contains("btn-complete")) {
+            const id = e.target.getAttribute("data-id");
+            const newStatus = e.target.classList.contains("btn-process") ? "Diproses" : "Selesai";
+            let orders = getOrders().map(o => o.id_pesanan === id ? {...o, status: newStatus} : o);
+            localStorage.setItem('basuo_database_orders', JSON.stringify(orders));
+            renderDashboard();
+        }
+    });
 
-    // 6. Controller Navigasi Pindah Tab Menu Samping
+    // 7. Controller Navigasi Menu Samping (Sidebar Tabs)
     function switchTab(activeTab, viewName) {
         [navOrders, navHistory, navSales].forEach(nav => {
             if (nav) nav.classList.remove("aktif");
@@ -178,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (navHistory) navHistory.onclick = (e) => { e.preventDefault(); switchTab(navHistory, "history"); };
     if (navSales) navSales.onclick = (e) => { e.preventDefault(); switchTab(navSales, "sales"); };
 
-    // 7. Fitur Cetak / Ekspor ke File CSV
+    // 8. Fitur Ekspor ke File Excel / CSV
     const exportBtn = document.getElementById("export-csv-btn");
     if (exportBtn) {
         exportBtn.onclick = () => {
@@ -204,20 +272,20 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    // 8. Tombol Refresh Manual & Reset Database Pusat
+    // 9. Tombol Refresh Manual & Reset Database Toko
     const refreshBtn = document.getElementById("refresh-btn");
     const tombolReset = document.getElementById("reset-database-btn");
     
     if (refreshBtn) refreshBtn.onclick = renderDashboard;
     if (tombolReset) {
         tombolReset.onclick = () => { 
-            if (confirm("⚠️ PERINGATAN!\n\nApakah Anda yakin ingin menghapus seluruh data transaksi dan mereset pendapatan hari ini menjadi Rp 0?")) { 
+            if (confirm("⚠️ PERINGATAN!\n\nApakah Anda yakin ingin menghapus seluruh riwayat pesanan? Data yang dihapus tidak bisa dikembalikan.")) { 
                 localStorage.removeItem('basuo_database_orders'); 
                 window.location.reload(); 
             }
         };
     }
 
-    // Jalankan visualisasi database saat pertama kali sistem dibuka
+    // Inisialisasi tampilan pertama kali saat admin dibuka
     renderDashboard();
 });
