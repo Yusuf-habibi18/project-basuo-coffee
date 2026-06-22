@@ -19,10 +19,22 @@
     box-sizing: border-box;
 }
 
+/* FIX: Memastikan root HTML mengambil tinggi penuh browser */
+html {
+    height: 100%;
+}
+
 body {
     background-color: var(--bg-light);
     font-family: var(--font-sans);
     color: var(--text-dark);
+    line-height: 1.8;    /* Tambahan agar teks lebih enak dibaca */
+    overflow-x: hidden;  /* Mencegah scrollbar horizontal yang mengganggu */
+    
+    /* FIX: Mengaktifkan mode Flexbox vertikal pada body */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* ==========================================================================
@@ -100,6 +112,9 @@ nav ul {
     max-width: 1100px;
     margin: 60px auto;
     padding: 0 20px;
+    
+    /* FIX: Memaksa kontainer ini menghabiskan sisa ruang layar agar footer terdorong ke bawah */
+    flex: 1; 
 }
 
 .page-title {
@@ -233,7 +248,9 @@ footer {
     background-color: #EFEAE2;
     padding: 40px;
     text-align: center;
-    margin-top: 80px;
+    
+    /* FIX: Mengubah margin-top statis menjadi otomatis agar menempel ke dasar paling bawah */
+    margin-top: auto; 
 }
 
 footer p {
