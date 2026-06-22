@@ -68,7 +68,6 @@ header {
     object-fit: contain;
 }
 
-/* Menggabungkan UL dan Button dalam satu kesatuan Navigasi */
 nav {
     display: flex;
     align-items: center;
@@ -103,31 +102,33 @@ nav ul {
     font-weight: 600;
 }
 
-/* Tombol Keranjang Belanja di Navbar */
+/* Tombol Keranjang Belanja Universal */
 .cart-btn {
     background: var(--accent-clay);
     color: white;
     border: none;
-    padding: 8px 18px;
-    border-radius: 20px;
+    padding: 12px 24px;
+    border-radius: 25px;
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     cursor: pointer;
     display: flex;
     gap: 8px;
     align-items: center;
     white-space: nowrap;
-    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 15px rgba(194, 109, 77, 0.2);
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
 
 .cart-btn:hover {
-    transform: scale(1.05);
+    transform: translateY(-2px);
     background: var(--accent-gold);
+    box-shadow: 0 6px 20px rgba(188, 146, 100, 0.3);
 }
 
 /* ==========================================================================
-   3. LAYOUT UTAMA & HIGHLIGHT IMAGES
+   3. LAYOUT UTAMA & SEKSI REKOMENDASI NEW POSITION
    ========================================================================== */
 .menu-container {
     max-width: 950px; 
@@ -141,6 +142,24 @@ nav ul {
 
 .try-our-menu {
     margin-bottom: 60px;
+}
+
+/* Pengaturan Flexbox Judul & Tombol Keranjang Sejajar */
+.rekomendasi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+}
+
+.rekomendasi-title {
+    font-family: var(--font-sans);
+    font-size: 1.6rem;
+    color: var(--text-dark);
+    font-weight: 700;
+    text-align: left;
+    letter-spacing: -0.5px;
 }
 
 .try-our-menu .container {
@@ -251,7 +270,7 @@ nav ul {
     flex-grow: 1;
 }
 
-.menu-card h2 {
+.menu-card h3 {
     font-family: var(--font-serif);
     color: var(--text-dark);
     font-size: 1.9rem;
@@ -456,14 +475,13 @@ footer p {
 }
 
 /* ==========================================================================
-   7. RESPONSIVE LAYOUT (ROMBAK TOTAL UTK MOBILE HP JELEK & BAGUS)
+   7. RESPONSIVE LAYOUT (MOBILE RESPONSIVE ADJUSTMENT)
    ========================================================================== */
 @media screen and (max-width: 768px) {
     header {
         padding: 15px 0;
     }
 
-    /* Mencegah logo & navigasi pecah baris di HP */
     .header-container { 
         flex-direction: row; 
         justify-content: space-between;
@@ -472,33 +490,38 @@ footer p {
     }
     
     .brand h1 {
-        display: none; /* Menyembunyikan teks nama toko di HP biar menghemat space */
+        display: none; 
     }
 
     .logo {
-        height: 45px; /* Perkecil sedikit logo di HP */
+        height: 45px; 
     }
 
-    /* Menjaga navigasi tetap sejajar horizontal */
     nav {
         gap: 12px;
     }
 
     nav ul {
-        gap: 12px; /* Memperdekat jarak MENU, PROMO, LOKASI */
+        gap: 12px; 
     }
     
     .nav-link {
-        font-size: 0.75rem; /* Perkecil teks menu agar cukup satu baris */
+        font-size: 0.75rem; 
         letter-spacing: 0.5px;
     }
 
-    /* TOMBOL KERANJANG DI HP: Masuk sejajar di samping LOKASI dengan rapi */
+    /* Penyesuaian Header Rekomendasi di HP agar tidak bertabrakan */
+    .rekomendasi-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+    }
+
     .cart-btn {
-        padding: 6px 12px;
-        font-size: 0.75rem;
-        gap: 4px;
-        transform: none !important; /* Matikan efek scale biar stabil di touch screen HP */
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        transform: none !important; 
     }
     
     .try-our-menu .container {
@@ -531,14 +554,14 @@ footer p {
         height: 200px;
     }
     
-    .menu-card h2 { 
+    .menu-card h3 { 
         text-align: center; 
         font-size: 1.5rem;
     }
 
     .menu-card p {
         font-size: 0.95rem;
-        text-align: center; /* Lebih seimbang untuk dibaca di mobile */
+        text-align: center; 
     }
 
     .modal-content {
@@ -547,16 +570,11 @@ footer p {
     }
 }
 
-/* Proteksi Ekstra Untuk Layar HP Sangat Kecil (Lebar di bawah 360px) */
 @media screen and (max-width: 360px) {
     nav ul {
         gap: 8px;
     }
     .nav-link {
-        font-size: 0.7rem;
-    }
-    .cart-btn {
-        padding: 5px 8px;
         font-size: 0.7rem;
     }
 }
