@@ -21,11 +21,6 @@
                     <li><a class="nav-link aktif" href="menu.html">Menu</a></li>
                     <li><a class="nav-link" href="promo.html">Promo</a></li>
                     <li><a class="nav-link" href="location.html">Lokasi</a></li>
-                    <li>
-                        <button id="cart-trigger-btn" class="cart-btn" aria-label="Buka Keranjang Belanja">
-                            Check Keranjang (<span id="cart-count">0</span>)
-                        </button>
-                    </li>
                 </ul>
             </nav>
         </div>
@@ -34,7 +29,13 @@
     <main class="menu-container">
         
         <section class="try-our-menu reveal" aria-labelledby="hero-heading">
-            <h2 id="hero-heading" class="hidden-visual"></h2>
+            <div class="rekomendasi-header">
+                <h2 id="hero-heading" class="rekomendasi-title">Rekomendasi Menu</h2>
+                <button id="cart-trigger-btn" class="cart-btn" aria-label="Buka Keranjang Belanja">
+                    Check Keranjang (<span id="cart-count">0</span>)
+                </button>
+            </div>
+            
             <div class="container">
                 <figure>
                     <img src="menu1.jpg" alt="Sajian Kopi Susu Khas Basuo">
