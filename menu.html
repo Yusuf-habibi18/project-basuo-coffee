@@ -3,19 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basuo Cafe | Menu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <title>Basuo Coffee | Modern Luxury Menu</title>
+    <!-- Google Fonts Premium Combination -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="menustyle.css">
 </head>
 <body>
     
-    <header>
+    <!-- INTERACTIVE LUXURY HEADER -->
+    <header id="main-header">
         <div class="header-container">
             <div class="brand">
-                <img src="logo.jpg" class="logo" alt="Logo Cafe Basuo" title="Logo Cafe Basuo">
+                <div class="logo-wrapper">
+                    <img src="logo.jpg" class="logo" alt="Logo Cafe Basuo" title="Logo Cafe Basuo">
+                </div>
                 <h1>Basuo Coffee</h1>
             </div>
-            <nav aria-label="Navigasi Menu">
+            <button class="menu-toggle" aria-label="Toggle Navigation" id="menu-toggle">
+                <span></span>
+                <span></span>
+            </button>
+            <nav aria-label="Navigasi Menu" id="nav-menu">
                 <ul class="nav-list">
                     <li><a class="nav-link" href="index.html">Home</a></li>
                     <li><a class="nav-link aktif" href="menu.html">Menu</a></li>
@@ -28,36 +36,49 @@
 
     <main class="menu-container">
         
+        <!-- INTERACTIVE HERO RECOMMENDATION HERO -->
         <section class="try-our-menu reveal" aria-labelledby="hero-heading">
             <div class="rekomendasi-header">
-                <h2 id="hero-heading" class="rekomendasi-title">Rekomendasi Menu</h2>
+                <div class="header-title-block">
+                    <span class="sub-title">Curated Chef's Choice</span>
+                    <h2 id="hero-heading" class="rekomendasi-title">Rekomendasi Menu</h2>
+                </div>
                 <button id="cart-trigger-btn" class="cart-btn" aria-label="Buka Keranjang Belanja">
+                    <span class="cart-icon-wrapper">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    </span>
                     Check Keranjang (<span id="cart-count">0</span>)
                 </button>
             </div>
             
-            <div class="container">
-                <figure>
+            <div class="container grid-slider">
+                <figure class="recommend-frame">
                     <img src="menu1.jpg" alt="Sajian Kopi Susu Khas Basuo">
+                    <figcaption>Signature Blend</figcaption>
                 </figure>
-                <figure>
+                <figure class="recommend-frame">
                     <img src="menu2.jpg" alt="Proses Manual Brew V60">
+                    <figcaption>Artisan Brew</figcaption>
                 </figure>
-                <figure>
+                <figure class="recommend-frame">
                     <img src="menu3.jpg" alt="Kopi Espresso Segar">
+                    <figcaption>Pure Espresso</figcaption>
                 </figure>
             </div>
         </section>
 
+        <!-- FOOD CATEGORY: MODULAR ARCHITECTURE -->
         <section class="menu-section reveal" aria-labelledby="food-category">
-            <h2 id="food-category" class="category-title">Makanan</h2>
+            <div class="category-title-wrapper">
+                <span class="cat-number">01</span>
+                <h2 id="food-category" class="category-title">Makanan</h2>
+            </div>
             
-            <div class="menu-grid">
+            <div class="menu-modern-grid">
                 <article class="menu-card">
                     <div class="menu-media-block">
                         <img src="b8.jpg" class="menu-card-img" alt="Beef Teriyaki">
                         <div class="price-tag">Rp 25.000</div>
-                        <button class="order-btn add-to-cart-btn" data-name="Beef Teriyaki" data-price="25000">Tambah ke Keranjang</button>
                     </div>
                     <div class="menu-text-block">
                         <h3>Beef Teriyaki</h3>
@@ -66,6 +87,9 @@
                             bukan sekadar untuk mengenyangkan, melainkan untuk membangkitkan kehangatan rasa di setiap suapan, membawa ingatan Anda kembali 
                             pada momen-momen manis yang berharga.
                         </p>
+                        <button class="order-btn add-to-cart-btn" data-name="Beef Teriyaki" data-price="25000">
+                            <span>Tambah Pesanan</span>
+                        </button>
                     </div>
                 </article>
 
@@ -73,7 +97,6 @@
                     <div class="menu-media-block">
                         <img src="b9.jpg" class="menu-card-img" alt="Croffle with Ice Cream">
                         <div class="price-tag">Rp 20.000</div>
-                        <button class="order-btn add-to-cart-btn" data-name="Croffle with Ice Cream" data-price="20000">Tambah ke Keranjang</button>
                     </div>
                     <div class="menu-text-block">
                         <h3>Croffle with Ice Cream</h3>
@@ -82,36 +105,28 @@
                             kontras ini mengajar kita sebuah filosofi sederhana: bahwa dalam hidup, perbedaan watak dan latar belakang justru dapat melebur 
                             menjadi harmoni rasa yang luar biasa indah.
                         </p>
+                        <button class="order-btn add-to-cart-btn" data-name="Croffle with Ice Cream" data-price="20000">
+                            <span>Tambah Pesanan</span>
+                        </button>
                     </div>
                 </article>
 
-                <article class="menu-card">
-                    <div class="menu-media-block">
-                        <img src="b3.jpg" class="menu-card-img" alt="Roti Bakar">
-                        <div class="price-tag">Rp 15.000</div>
-                        <button class="order-btn add-to-cart-btn" data-name="Roti Bakar" data-price="15000">Tambah ke Keranjang</button>
-                    </div>
-                    <div class="menu-text-block">
-                        <h3>Roti Bakar</h3>
-                        <p>
-                            Roti bakar klasik berselimut mentega wangi dengan pilihan isian manis yang melimpah. Setiap gigitannya yang renyah di luar 
-                            namun lembut di dalam adalah analogi sempurna dari keteguhan hati; pengingat ramah untuk tetap mempertahankan kelembutan jiwa 
-                            meski badai kehidupan di luar sana membakar begitu keras.
-                        </p>
-                    </div>
-                </article>
+                
             </div>
         </section>
 
+        <!-- DRINK CATEGORY: MODULAR ARCHITECTURE -->
         <section class="menu-section reveal" aria-labelledby="drink-category">
-            <h2 id="drink-category" class="category-title">Minuman</h2>
+            <div class="category-title-wrapper">
+                <span class="cat-number">02</span>
+                <h2 id="drink-category" class="category-title">Minuman</h2>
+            </div>
             
-            <div class="menu-grid">
+            <div class="menu-modern-grid">
                 <article class="menu-card">
                     <div class="menu-media-block">
                         <img src="b10.jpg" class="menu-card-img" alt="Blue Ocean">
                         <div class="price-tag">Rp 15.000</div>
-                        <button class="order-btn add-to-cart-btn" data-name="Blue Ocean" data-price="15000">Tambah ke Keranjang</button>
                     </div>
                     <div class="menu-text-block">
                         <h3>Blue Ocean</h3>
@@ -120,6 +135,9 @@
                             asam-manis yang menggelitik ini dihadirkan sebagai simbol dari luasnya samudra rindu, siap membasuh dahaga hati yang gersang dan 
                             mengembalikan keceriaan suasana dalam sekejap.
                         </p>
+                        <button class="order-btn add-to-cart-btn" data-name="Blue Ocean" data-price="15000">
+                            <span>Tambah Pesanan</span>
+                        </button>
                     </div>
                 </article>
 
@@ -127,7 +145,6 @@
                     <div class="menu-media-block">
                         <img src="b14.jpg" class="menu-card-img" alt="Strawberry Sweet Cream">
                         <div class="price-tag">Rp 18.000</div>
-                        <button class="order-btn add-to-cart-btn" data-name="Strawberry Sweet Cream" data-price="18000">Tambah ke Keranjang</button>
                     </div>
                     <div class="menu-text-block">
                         <h3>Strawberry Sweet Cream</h3>
@@ -135,85 +152,82 @@
                             Sari buah stroberi pilihan bersatu dengan kelembutan krim yang meleleh manja. Kehadiran rasa asam-manis yang ceria 
                             dan cerah ini siap menghapus mendung di matamu, mengembalikan tawa, serta menghidupkan harapan baru akan pertemuan yang cerah.
                         </p>
+                        <button class="order-btn add-to-cart-btn" data-name="Strawberry Sweet Cream" data-price="18000">
+                            <span>Tambah Pesanan</span>
+                        </button>
                     </div>
                 </article>
 
-                <article class="menu-card">
-                    <div class="menu-media-block">
-                        <img src="b15.jpg" class="menu-card-img" alt="Matcha Ice Cream">
-                        <div class="price-tag">Rp 15.000</div>
-                        <button class="order-btn add-to-cart-btn" data-name="Matcha Ice Cream" data-price="15000">Tambah ke Keranjang</button>
-                    </div>
-                    <div class="menu-text-block">
-                        <h3>Matcha Ice Cream</h3>
-                        <p>
-                            Kombinasi dingin dari gelato matcha autentik Jepang yang kaya rasa. Paduan kelembutan tekstur dan rasa khas teh hijau yang 
-                            menenangkan ini diciptakan sebagai penyejuk memori, meredam rindu, dan menjadi teman setia dalam merajut mimpi hingga waktu 
-                            pertemuan tiba kembali.
-                        </p>
-                    </div>
-                </article>
+                
             </div>
         </section>
 
     </main>
 
+    <!-- PREMIUM SIDE-DRAWER SHOPPING CART MODAL -->
     <aside id="cart-modal" class="modal-overlay" aria-hidden="true" role="dialog">
         <div class="modal-content">
-            <button id="close-cart-btn" class="modal-close-btn" aria-label="Tutup Keranjang">&times;</button>
-            
-            <h2 class="modal-title">Pesanan Basuo Anda</h2>
+            <div class="modal-header-block">
+                <h2 class="modal-title">Pesanan Basuo Anda</h2>
+                <button id="close-cart-btn" class="modal-close-btn" aria-label="Tutup Keranjang">&times;</button>
+            </div>
             
             <div id="cart-items-list" class="cart-items-container"></div>
             
-            <hr class="modal-divider">
-            
-            <div class="total-price-block">
-                <span>Total Bayar:</span>
-                <span id="cart-total-price">Rp 0</span>
-            </div>
+            <div class="checkout-form-wrapper">
+                <div class="total-price-block">
+                    <span>Subtotal</span>
+                    <span id="cart-total-price">Rp 0</span>
+                </div>
 
-            <div class="form-group">
-                <label for="customer-name">Nama Pemesan:</label>
-                <input type="text" id="customer-name" class="payment-select" placeholder="Masukkan nama Anda" required>
-            </div>
+                <div class="form-group">
+                    <label for="customer-name">Nama Pemesan</label>
+                    <input type="text" id="customer-name" class="payment-select" placeholder="Ex: Sutan Amrin" required>
+                </div>
 
-            <div class="form-group">
-                <label for="table-number">Nomor Meja / Jenis Pesanan:</label>
-                <select id="table-number" class="payment-select">
-                    <option value="Dine In - Meja 1">Meja 1</option>
-                    <option value="Dine In - Meja 2">Meja 2</option>
-                    <option value="Dine In - Meja 3">Meja 3</option>
-                    <option value="Dine In - Meja 4">Meja 4</option>
-                    <option value="Dine In - Meja 5">Meja 5</option>
-                    <option value="Take Away">Bawa Pulang (Take Away)</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="table-number">Nomor Meja / Jenis Pesanan</label>
+                    <div class="select-styled-container">
+                        <select id="table-number" class="payment-select">
+                            <option value="Dine In - Meja 1">Meja 01</option>
+                            <option value="Dine In - Meja 2">Meja 02</option>
+                            <option value="Dine In - Meja 3">Meja 03</option>
+                            <option value="Dine In - Meja 4">Meja 04</option>
+                            <option value="Dine In - Meja 5">Meja 05</option>
+                            <option value="Take Away">Bawa Pulang (Take Away)</option>
+                        </select>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label for="payment-method">Metode Pembayaran:</label>
-                <select id="payment-method" class="payment-select">
-                    <option value="Transfer Bank">Transfer Bank Mandiri (Rek: 11122233344 a/n Basuo Coffee)</option>
-                    <option value="QRIS">QRIS / ShopeePay / GoPay / OVO</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="payment-method">Metode Pembayaran</label>
+                    <div class="select-styled-container">
+                        <select id="payment-method" class="payment-select">
+                            <option value="Transfer Bank">Transfer Bank Mandiri (Rek: 11122233344 a/n Basuo Coffee)</option>
+                            <option value="QRIS">QRIS / ShopeePay / GoPay / OVO</option>
+                        </select>
+                    </div>
+                </div>
 
-            <div id="qris-container" class="qris-box" style="display: none;">
-                <p class="qris-instruction">SILAHKAN SCAN UNTUK MEMBAYAR</p>
-                <img src="qris-dummy.jpg" alt="QRIS Resmi Basuo Coffee" class="qris-image">
-            </div>
+                <div id="qris-container" class="qris-box" style="display: none;">
+                    <div class="qris-inner-card">
+                        <p class="qris-instruction">SILAHKAN SCAN UNTUK MEMBAYAR</p>
+                        <img src="qris-dummy.jpg" alt="QRIS Resmi Basuo Coffee" class="qris-image">
+                    </div>
+                </div>
 
-            <button id="checkout-final-btn" class="checkout-btn">
-                Konfirmasi & Kirim Pesanan
-            </button>
+                <button id="checkout-final-btn" class="checkout-btn">
+                    Konfirmasi & Kirim Pesanan
+                </button>
+            </div>
         </div>
     </aside>
 
+    <!-- CLEAN SYSTEM FOOTER -->
     <footer>
         <p>&copy; 2026 BASUO CAFE. ALL RIGHTS RESERVED.</p>
     </footer>
 
     <script src="script.js"></script>
-    <script src="admin.js"></script>
 </body>
 </html>
