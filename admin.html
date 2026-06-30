@@ -1,100 +1,172 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basuo Coffee | Dashboard Kasir & Admin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="adminstyle.css"> 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basuo Coffee | Command Center</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="adminstyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <div class="admin-layout">
-        <aside class="sidebar">
-            <div class="sidebar-brand">
-                <h2>Basuo Coffee</h2>
-                <p>Panel Admin & Kasir</p>
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="#" class="sidebar-link aktif" id="nav-orders">Pesanan Live</a></li>
-                    <li><a href="#" class="sidebar-link" id="nav-history">Riwayat Transaksi</a></li>
-                    <li><a href="#" class="sidebar-link" id="nav-sales">Data Penjualan</a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <p></p>
-            </div>
-        </aside>
+<div class="admin-layout">
 
-        <main class="main-content">
-            <header class="content-header">
-                <h1>Ringkasan Operasional Hari Ini</h1>
-                <p id="live-clock">Memuat waktu...</p>
-            </header>
-
-            <section class="metrics-grid">
-                <div class="card metric-card">
-                    <h3>Total Pendapatan</h3>
-                    <p id="metric-revenue">Rp 0</p>
-                </div>
-                <div class="card metric-card">
-                    <h3>Pesanan Baru (Antrean)</h3>
-                    <p id="metric-new-orders" class="text-alert">0</p>
-                </div>
-                <div class="card metric-card">
-                    <h3>Total Transaksi Sukses</h3>
-                    <p id="metric-success-orders">0 Transaksi</p>
-                </div>
-            </section>
-
-            <section class="orders-section" id="orders-section-container">
-                <div class="section-header">
-                    <h2 id="section-title-text">Antrean Pesanan Masuk (Real-Time)</h2>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <button id="refresh-btn" class="refresh-button">🔄 Segarkan Data</button>
-                        <button id="reset-database-btn" style="background-color: #d9534f; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background-color 0.2s;">
-                            Reset Data
-                        </button>
-                    </div>
-                </div>
-
-                <div id="live-orders-queue" class="orders-queue-grid">
-                     </div>
-            </section>
-
-            <section id="sales-analysis-section" style="display: none;">
-                <div class="section-header" style="margin-top: 20px;">
-                    <h2>Omset Harian</h2>
-                    <button id="export-csv-btn" class="refresh-button" style="background-color: #198754; color: white; border: none; cursor: pointer;">⬇️ Ekspor ke CSV</button>
-                </div>
-                
-                <div style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #E9ECEF; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin-bottom: 25px;">
-                    <h3 style="font-family: 'Montserrat', sans-serif; font-size: 1rem; color: #495057; margin-bottom: 15px; font-weight: 600;">Grafik Pendapatan Toko</h3>
-                    <div style="position: relative; height: 260px; width: 100%;">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                </div>
-                
-                <div id="sales-report-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Waktu / Tanggal</th>
-                                <th>Nama Pelanggan</th>
-                                <th>Menu Pesanan</th>
-                                <th style="text-align: right;">Total Harga</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sales-report-body">
-                            </tbody>
-                    </table>
-                </div>
-            </section>
-        </main>
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-logo">
+        <div class="brand-icon"></div>
+        <h2>Basuo Coffee</h2>
+      </div>
+      <p>Command Center</p>
     </div>
 
-    <script src="admin.js"></script>
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="nav-section-label">Operasional</li>
+        <li>
+          <a href="#" class="sidebar-link aktif" id="nav-orders">
+            <span class="nav-icon"></span>
+            Pesanan Live
+            <span class="nav-badge" id="sidebar-badge-new">0</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="sidebar-link" id="nav-history">
+            <span class="nav-icon"></span>
+            Riwayat Transaksi
+          </a>
+        </li>
+        <li class="nav-section-label" style="margin-top:8px;">Laporan</li>
+        <li>
+          <a href="#" class="sidebar-link" id="nav-sales">
+            <span class="nav-icon"></span>
+            Data Penjualan
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-status">
+        <div class="status-dot"></div>
+        Sistem Aktif
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main class="main-content">
+
+    <!-- Topbar -->
+    <header class="content-header">
+      <div class="header-left">
+        <h1 id="topbar-title">Antrean Pesanan Live</h1>
+        <p class="header-sub">Ringkasan operasional harian Basuo Coffee</p>
+      </div>
+      <div class="header-right">
+        <span id="live-clock">—</span>
+      </div>
+    </header>
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+      <!-- Metric Cards -->
+      <section class="metrics-grid">
+        <div class="card metric-card card-gold">
+          <div class="metric-label">
+            <span class="metric-label-dot" style="background:var(--gold)"></span>
+            Total Pendapatan
+          </div>
+          <div class="metric-value" id="metric-revenue">Rp 0</div>
+          <div class="metric-change">Dari transaksi selesai</div>
+          <span class="metric-icon">Rp</span>
+        </div>
+        <div class="card metric-card card-alert">
+          <div class="metric-label">
+            <span class="metric-label-dot" style="background:var(--status-new)"></span>
+            Pesanan Antri
+          </div>
+          <div class="metric-value" id="metric-new-orders">0</div>
+          <div class="metric-change">Menunggu diproses</div>
+          <span class="metric-icon">#</span>
+        </div>
+        <div class="card metric-card card-success">
+          <div class="metric-label">
+            <span class="metric-label-dot" style="background:var(--status-done)"></span>
+            Transaksi Sukses
+          </div>
+          <div class="metric-value" id="metric-success-orders">0</div>
+          <div class="metric-change">Berhasil diselesaikan</div>
+          <span class="metric-icon">✓</span>
+        </div>
+      </section>
+
+      <!-- Orders Section -->
+      <section class="orders-section" id="orders-section-container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h2 id="section-title-text">Antrean Pesanan Masuk</h2>
+            <span class="section-pill" id="order-count-pill">0 tiket</span>
+          </div>
+          <div class="btn-group">
+            <button id="refresh-btn" class="btn btn-ghost">
+              ↻ Segarkan
+            </button>
+            <button id="reset-database-btn" class="btn btn-danger">
+              ✕ Reset Data
+            </button>
+          </div>
+        </div>
+
+        <div id="live-orders-queue" class="orders-queue-grid"></div>
+      </section>
+
+      <!-- Sales Analysis Section -->
+      <section id="sales-analysis-section" style="display:none;">
+        <div class="section-header" style="margin-bottom:24px;">
+          <div class="section-title-wrap">
+            <h2>Grafik & Laporan Penjualan</h2>
+            <span class="section-pill">Omset Harian</span>
+          </div>
+          <button id="export-csv-btn" class="btn btn-gold">
+            ↓ Ekspor CSV
+          </button>
+        </div>
+
+        <div class="chart-card">
+          <p class="chart-card-title">Pendapatan Bersih per Hari</p>
+          <div class="chart-wrap">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+
+        <div class="sales-table-wrap">
+          <div id="sales-report-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Waktu / Tanggal</th>
+                  <th>Pelanggan</th>
+                  <th>Menu</th>
+                  <th style="text-align:right;">Total</th>
+                </tr>
+              </thead>
+              <tbody id="sales-report-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /page-body -->
+  </main>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<script src="admin.js"></script>
 </body>
 </html>
