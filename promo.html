@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basuo Cafe | Promo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <title>Basuo Coffee | Modern Luxury Promo</title>
+    <!-- Google Fonts Premium Combination -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="promostyle.css">
 </head>
 <body>
     
-    <header>
+    <!-- INTERACTIVE LUXURY HEADER -->
+    <header id="main-header">
         <div class="header-container">
             <div class="brand">
-                <img src="logo.jpg" class="logo" alt="Logo Cafe Basuo" title="Logo Cafe Basuo">
+                <div class="logo-wrapper">
+                    <img src="logo.jpg" class="logo" alt="Logo Cafe Basuo" title="Logo Cafe Basuo">
+                </div>
                 <h1>Basuo Coffee</h1>
             </div>
-            <nav aria-label="Navigasi Utama">
-                <ul>
-                    <li><a class="nav-link" href="home.html">Home</a></li>
+            <button class="menu-toggle" aria-label="Toggle Navigation" id="menu-toggle">
+                <span></span>
+                <span></span>
+            </button>
+            <nav aria-label="Navigasi Utama" id="nav-menu">
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="index.html">Home</a></li>
                     <li><a class="nav-link" href="menu.html">Menu</a></li>
                     <li><a class="nav-link aktif" href="promo.html">Promo</a></li>
                     <li><a class="nav-link" href="location.html">Lokasi</a></li>
@@ -28,40 +36,62 @@
 
     <main class="promo-container">
         
-        <header class="promo-title-section">
+        <!-- HEADER TITLE SECTION -->
+        <section class="promo-title-section reveal">
+            <span class="sub-title">Exclusive Offerings</span>
             <h2>Penawaran Istimewa</h2>
-            <p class="promo-subtitle"></p>
-        </header>
+            <p class="promo-subtitle">Merayakan kebersamaan lewat cita rasa tradisi yang dikemas modern.</p>
+        </section>
 
+        <!-- PROMO ASYMMETRIC / MODULAR GRID -->
         <div class="promo-grid">
-            <article class="promo-card">
+            <article class="promo-card reveal">
                 <div class="promo-image-wrapper">
-                    <img src="promo1.jpg" alt="Promo Spesial Basuo 1">
-                    <span class="promo-tag">Terbatas</span>
+                    <img src="promo1.jpg" alt="Promo Paket Basuo Cinto">
+                    <span class="promo-tag tag-limited">Terbatas</span>
                 </div>
                 <div class="promo-content">
-                    <h3></h3>
-                    <p></p>
+                    <span class="promo-code">CODE: BASUOCINTO</span>
+                    <h3>Paket Basuo Cinto</h3>
+                    <p>
+                        Nikmati perpaduan harmoni rasa dari dua varian artisan brew pilihan bersama sosok terkasih. Karena 
+                        setiap cangkir kopi terbaik adalah peretas jarak, pengikat rindu, dan pemantik obrolan hangat 
+                        yang tak lekang oleh waktu. Sempurna untuk dinikmati berdua di sudut ternyaman kami.
+                    </p>
+                    <div class="promo-footer">
+                        <span class="promo-validity">Berlaku s.d 31 Juli 2026</span>
+                    </div>
                 </div>
             </article>
 
-            <article class="promo-card">
+            <article class="promo-card reveal">
                 <div class="promo-image-wrapper">
-                    <img src="promo2.jpg" alt="Promo Spesial Basuo 2">
-                    <span class="promo-tag">Favorit</span>
+                    <img src="promo2.jpg" alt="Promo Senandika Senja">
+                    <span class="promo-tag tag-favorite">Favorit</span>
                 </div>
                 <div class="promo-content">
-                    <h3></h3>
-                    <p></p>
+                    <span class="promo-code">CODE: SENANDIKA</span>
+                    <h3>Senandika Senja</h3>
+                    <p>
+                        Luangkan waktu sejenak di kala temaram untuk menikmati sajian Signature Blend kami berpasangan 
+                        dengan renyahnya Croffle mentega premium. Sebuah jeda eksklusif untuk mengapresiasi diri 
+                        atas segala perjuangan hebat Anda sepanjang hari ini, sebelum kembali merajut mimpi.
+                    </p>
+                    <div class="promo-footer">
+                        <span class="promo-validity">Berlaku Setiap Hari (15.00 - 18.00)</span>
+                    </div>
                 </div>
             </article>
         </div>
 
     </main>
 
+    <!-- CLEAN SYSTEM FOOTER -->
     <footer>
         <p>&copy; 2026 BASUO CAFE. ALL RIGHTS RESERVED.</p>
     </footer>
 
+    <!-- Script Terintegrasi untuk Hamburger Menu & Scroll Animation -->
+    <script src="script.js"></script>
 </body>
 </html>
