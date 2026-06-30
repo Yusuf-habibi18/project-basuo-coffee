@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basuo Cafe | Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <title>Basuo Coffee | Modern Luxury Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="homestyle.css">
 </head>
 <body>
 
-    <header>
+    <header id="main-header">
         <div class="header-container">
             <div class="brand">
-                <img src="logo.jpg" class="logo" alt="Logo Cafe Basuo" title="Logo Cafe Basuo">
+                <div class="logo-wrapper">
+                    <img src="logo.jpg" class="logo" alt="Logo Cafe Basuo" title="Logo Cafe Basuo">
+                </div>
                 <h1>Basuo Coffee</h1>
             </div>
-            <nav aria-label="Navigasi Utama">
+            <button class="menu-toggle" aria-label="Toggle Navigation" id="menu-toggle">
+                <span></span>
+                <span></span>
+            </button>
+            <nav aria-label="Navigasi Utama" id="nav-menu">
                 <ul>
                     <li><a class="nav-link aktif" href="index.html">Home</a></li>
                     <li><a class="nav-link" href="menu.html">Menu</a></li>
@@ -28,68 +34,95 @@
 
     <main>
         <section class="philosophy-banner reveal">
+            <span class="sub-title">Premium Cultural Blend</span>
             <h2>Tentang Sebuah Jeda</h2>
-            <p id="philosophical-quote">
-                "Setiap cangkir yang kosong adalah jeda sebelum seduhan berikutnya dimulai. Begitupun perpisahan kita."
-            </p>
+            <div class="quote-wrapper">
+                <p id="philosophical-quote">
+                    "Setiap cangkir yang kosong adalah jeda sebelum seduhan berikutnya dimulai. Begitupun perpisahan kita."
+                </p>
+            </div>
+            <div class="scroll-indicator">
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+            </div>
         </section>
         
         <section class="welcome-section reveal">
             <div class="welcome-gallery">
-                <img src="welcome.jpg" alt="Welcome to Basuo Cafe">
-                <img src="toour.jpg" alt="To Our Cafe">
-                <img src="newera.jpg" alt="A New Era of Coffee">
+                <div class="gallery-item item-1">
+                    <img src="welcome.jpg" alt="Welcome to Basuo Cafe">
+                    <div class="item-overlay"><span>Ambience</span></div>
+                </div>
+                <div class="gallery-item item-2">
+                    <img src="toour.jpg" alt="To Our Cafe">
+                    <div class="item-overlay"><span>Brewing</span></div>
+                </div>
+                <div class="gallery-item item-3">
+                    <img src="newera.jpg" alt="A New Era of Coffee">
+                    <div class="item-overlay"><span>Tradition</span></div>
+                </div>
             </div>
         </section>
 
         <section class="video-section reveal">
-            <div class="perkenalan">
+            <div class="video-card">
                 <video autoplay muted loop playsinline controls>
                     <source src="basuo2.mp4" type="video/mp4">
                 </video>
+                <div class="video-tag">Vibe 01</div>
             </div>
-            <div class="biliard">
+            <div class="video-card standard-card">
                 <video autoplay muted loop playsinline controls>
                     <source src="billiard.mp4" type="video/mp4">
                 </video>
+                <div class="video-tag">Leisure Room</div>
             </div>
-            <div class="perkenalan">
+            <div class="video-card">
                 <video autoplay muted loop playsinline controls>
                     <source src="Basuo.mp4" type="video/mp4">
                 </video>
+                <div class="video-tag">Vibe 02</div>
             </div>
         </section>
 
-        <section class = "">
-            <div class = " foto-cafe-basuo">
-                <img src="basuo.coffee1.jpg" alt="Tampilan Cafe">
-                <img src="basuo.coffee2.jpg" alt="Tampilan Cafe">
-                <img src="basuo.coffee3.jpg" alt="Tampilan Cafe">
-                <img src="basuo.coffee4.jpg" alt="Tampilan Cafe">
-
+        <section class="slider-section reveal">
+            <div class="section-header-inline">
+                <h3>Sudut Estetik Basuo</h3>
+                <span class="slide-hint">Geser &rarr;</span>
+            </div>
+            <div class="foto-cafe-basuo custom-slider">
+                <img src="basuo.coffee1.jpg" alt="Tampilan Cafe 1">
+                <img src="basuo.coffee2.jpg" alt="Tampilan Cafe 2">
+                <img src="basuo.coffee3.jpg" alt="Tampilan Cafe 3">
+                <img src="basuo.coffee4.jpg" alt="Tampilan Cafe 4">
             </div>
         </section>
 
         <section class="banner-section reveal">
-            <div class="foto-hero">
-                <img src="n.jpg"  alt="Basuo Cafe Ambiance">
-                <img src="n1.jpg" alt="Basuo Cafe Ambiance">
-                <img src="n2.jpg" alt="Basuo Cafe Ambiance">
-                <img src="n3.jpg" alt="Basuo Cafe Ambiance">
+            <div class="foto-hero custom-slider">
+                <img src="n.jpg"  alt="Basuo Cafe Ambiance 1">
+                <img src="n1.jpg" alt="Basuo Cafe Ambiance 2">
+                <img src="n2.jpg" alt="Basuo Cafe Ambiance 3">
+                <img src="n3.jpg" alt="Basuo Cafe Ambiance 4">
             </div>
         </section>
 
         <section class="gallery-section reveal">
             <div class="container"> 
-                <img src="b5.jpg" alt="Menu Basuo 1">   
-                <img src="b4.jpg" alt="Menu Basuo 2">
-                <img src="b2.jpg" alt="Suasana Basuo 3">
+                <div class="img-frame"><img src="b5.jpg" alt="Menu Basuo 1"></div>   
+                <div class="img-frame"><img src="b4.jpg" alt="Menu Basuo 2"></div>
+                <div class="img-frame"><img src="b2.jpg" alt="Suasana Basuo 3"></div>
             </div>  
         </section>
     </main>
 
     <footer>
-        <p>&copy; BASUO COFFEE. ALL RIGHTS RESERVED.</p>
+        <div class="footer-content">
+            <p class="brand-footer">Basuo Coffee</p>
+            <div class="footer-divider"></div>
+            <p class="copyright">&copy; BASUO COFFEE. ALL RIGHTS RESERVED.</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
